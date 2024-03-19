@@ -45,7 +45,7 @@ body {
     border: 2px solid var(--main-yellow);
 }
 
-.navbar {
+/* .navbar {
     background-color: var(--main-yellow);
 }
 
@@ -94,7 +94,7 @@ body {
 
 .nav-menus:hover .user-dropdown {
     display: block;
-}
+} */
 
 .user-dropdown {
     display: none;

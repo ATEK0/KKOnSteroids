@@ -2,10 +2,13 @@
 import { userLogged } from '@/stores/loggedUserInfo.js';
 import NavBar from '@/components/Navbar.vue'
 
+import SideNavBar from '@/components/NavAdmin.vue'
+
 import CategoriesCard from '@/views/ADMIN/categories/DashboardCard.vue'
 import ProductsCard from '@/views/ADMIN/products/DashboardCard.vue'
 import UsersCard from '@/views/ADMIN/users/DashboardCard.vue'
 import RequestsCard from '@/views/ADMIN/product requests/DashboardCard.vue'
+
 
 let userInfo = userLogged()
 
@@ -24,7 +27,18 @@ if (!userInfo.role) {
 <template>
     <main>
 
-        <NavBar />
+        <SideNavBar>
+            <template v-slot>
+                <div>
+                    <h1>Main Content</h1>
+                    <p>This is the main content of the page.</p>
+                </div>
+            </template>
+        </SideNavBar>
+
+
+
+        <!-- <NavBar />
 
         <div class="container">
 
@@ -46,7 +60,7 @@ if (!userInfo.role) {
             </div>
 
 
-        </div>
+        </div> -->
 
     </main>
 </template>
