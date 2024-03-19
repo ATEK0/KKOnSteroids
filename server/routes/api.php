@@ -30,6 +30,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //auth routes
 Route::post('/register', [AuthController::class,'register']);
 Route::post('/login', [AuthController::class,'login']);
+Route::post('/updateAccount', [AuthController::class,'update']);
 Route::post('/me', [AuthController::class,'me']);
 Route::post('/logout', [AuthController::class,'logout']);
 Route::post('/check-login', [AuthController::class,'checkLogin']);
@@ -51,6 +52,7 @@ Route::post('/getProduct', [ProductsController::class,'show']);
 Route::post('/getMarkets', [ProductsController::class,'getMarkets']);
 Route::post('/getProducts', [ProductsController::class,'getProducts']);
 Route::post('/deleteProduct', [ProductsController::class,'delete']);
+Route::post('/updateProduct', [ProductsController::class,'update']);
 
 //product request routes
 Route::post('/getRequestsCount', [ProductRequestsController::class,'getCount']);

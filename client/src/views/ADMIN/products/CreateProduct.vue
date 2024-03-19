@@ -185,7 +185,7 @@ export default {
                     'brand': this.brand,
                     'description': this.description,
                     'size': this.size,
-                    'category': this.categories,
+                    'category': this.selectedCategories,
                     'links': this.links,
                     'htmlElements': this.htmlElements
                 }
@@ -195,7 +195,7 @@ export default {
                 axios.post(apiLink + "/api/createProduct", { payload })
                     .then(({ data }) => {
 
-                        toast("Request accepted and product created", {
+                        toast("Product created", {
                             "type": "success",
                             "autoClose": 1000,
                             "dangerouslyHTMLString": true

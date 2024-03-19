@@ -36,6 +36,34 @@ class AuthController extends Controller
         return response()->json(['message' => 'User registred'], 201);
     }
 
+    public function update(Request $request)
+    {
+        if ($this->checkIfAdmin($request)) {
+
+            $user = User::create([
+                "name" => $request->name,
+                "email" => $request->email,
+                "password" => bcrypt($request->password),
+            ]);
+
+            return response()->json(['message' => 'User registred'], 201);
+        } else {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
+    }
+
+    public function delete(Request $request)
+    {
+        if ($this->checkIfAdmin($request)) {
+
+            User::find($request->id)->delete();
+
+            return response()->json(['message' => 'User deleted'], 201);
+        } else {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
+    }
+
     public function logout(Request $request)
     {
         return response()->json([], 200);

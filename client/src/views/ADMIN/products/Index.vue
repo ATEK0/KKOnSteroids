@@ -157,7 +157,7 @@ export default {
         editProduct(category) {
             event.stopPropagation()
 
-            window.location.href = '/admin/products/edit/' + category.data.id
+            window.location.href = '/admin/products/edit/' + category.data.slug
         },
         updateProduct() {
             axios.defaults.headers.common["Authorization"] =

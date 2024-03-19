@@ -5,19 +5,19 @@ import FloatLabel from 'primevue/floatlabel';
 
 <template>
 
-    <div class="col-md-3 mt-3">
+    <div class="col-md-3 col-sm-6  mt-3">
         <div class="card shadow-sm">
             <div class="card-body d-flex flex-column gap-2">
                 <small>Categories</small>
                 <h2>{{ categoriesCount }}</h2>
 
-                <div class="d-flex gap-2">
+                <div class="d-flex gap-2 flex-sm-column flex-md-column flex-lg-row">
                     <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
                         data-bs-target="#categoryAddModal">
                         Create
                     </button>
                     <a href="/admin/categories" class="w-100"><button type="button" class="btn btn-primary w-100">Manage
-                            </button></a>
+                        </button></a>
                 </div>
 
             </div>

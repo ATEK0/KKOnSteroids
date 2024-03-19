@@ -14,7 +14,7 @@ if (!userInfo.role == 'Admin') {
     <NavBar />
     <form @submit.prevent="submitForm" class="container mt-3 d-flex flex-column gap-4">
 
-        <h3>Update {{  }}</h3>
+        <h3>Update {{ productID }}</h3>
 
         <FloatLabel>
             <InputText id="name" class="w-100" v-model="name" required />
@@ -64,7 +64,7 @@ if (!userInfo.role == 'Admin') {
             </FloatLabel>
 
             <FloatLabel class="w-25">
-                <InputText :id="'html-' + index" class="w-100" v-model="htmlElements[index]" />
+                <InputText :id="'html-' + index" class="w-100" v-model="htmlElements[index].HTML_price_element" />
                 <label :for="'html-' + index">Element {{ index + 1 }}</label>
             </FloatLabel>
 
@@ -96,18 +96,21 @@ export default {
     name: 'CreateNewProduct',
     data() {
         return {
+            productID: '',
             name: '',
             brand: '',
             description: '',
             size: '',
             links: [{}],
-            htmlElements: [],
+            htmlElements: [{HTML_price_element: ''}],
             selectedCategories: null,
-            categories: []
+            categories: [],
+            productSlug: ''
         };
     },
 
     mounted() {
+        this.productSlug = this.$route.params.slug
         this.loadPageData()
     },
     methods: {
@@ -119,6 +122,25 @@ export default {
                 .then(({ data }) => {
 
                     this.categories = data
+
+                })
+                .catch(error => {
+
+                });
+
+            axios.post(apiLink + "/api/getProduct", { slug: this.productSlug })
+                .then(({ data }) => {
+
+                    console.log(data)
+
+                    this.productID = data.id
+                    this.name = data.name
+                    this.description = data.description
+                    this.size = data.size
+                    this.brand = data.brand
+                    this.selectedCategories = data.categories
+                    this.links = data.links
+                    this.htmlElements = data.HTMLelements
 
                 })
                 .catch(error => {
@@ -181,21 +203,22 @@ export default {
 
                 let payload = {
                     'request_id': 0,
+                    'id': this.productID,
                     'name': this.name,
                     'brand': this.brand,
                     'description': this.description,
                     'size': this.size,
-                    'category': this.categories,
+                    'category': this.selectedCategories,
                     'links': this.links,
                     'htmlElements': this.htmlElements
                 }
 
                 axios.defaults.headers.common["Authorization"] =
                     "Bearer " + $cookies.get('jwtoken');
-                axios.post(apiLink + "/api/createProduct", { payload })
+                axios.post(apiLink + "/api/updateProduct", { payload })
                     .then(({ data }) => {
 
-                        toast("Request accepted and product created", {
+                        toast("Product updated", {
                             "type": "success",
                             "autoClose": 1000,
                             "dangerouslyHTMLString": true

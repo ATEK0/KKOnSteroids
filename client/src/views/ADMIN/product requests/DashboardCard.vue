@@ -1,16 +1,16 @@
 <template>
 
-    <div class="col-md-3 mt-3">
+    <div class="col-md-3 col-sm-6  mt-3">
         <div class="card shadow-sm">
             <div class="card-body d-flex flex-column gap-2">
                 <small>REQUESTS</small>
                 <h2>{{ requestsCount }}</h2>
 
-                <div class="d-flex gap-2">
+                <div class="d-flex gap-2 flex-sm-column flex-md-column flex-lg-row">
                     <a href="/product/request" class="w-100"><button type="button" class="btn btn-primary w-100">Create
-                            </button></a>
+                        </button></a>
                     <a href="/admin/requests" class="w-100"><button type="button" class="btn btn-primary w-100">Manage
-                            </button></a>
+                        </button></a>
                 </div>
 
 

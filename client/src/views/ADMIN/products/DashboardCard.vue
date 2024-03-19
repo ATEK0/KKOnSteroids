@@ -1,13 +1,13 @@
 <template>
 
 
-    <div class="col-md-3 col-sm-6 mt-3">
+    <div class="col-md-3 col-sm-6  mt-3">
         <div class="card shadow-sm">
             <div class="card-body d-flex flex-column gap-2">
                 <small>PRODUCTS</small>
                 <h2>{{ productsCount }}</h2>
 
-                <div class="d-flex gap-2 flex-sm-column flex-md-row">
+                <div class="d-flex gap-2 flex-sm-column flex-md-column flex-lg-row">
                     <a href="/admin/products/new" class="w-100"><button type="button"
                             class="btn btn-primary w-100">Create</button></a>
                     <a href="/admin/products" class="w-100"><button type="button" class="btn btn-primary w-100">Manage

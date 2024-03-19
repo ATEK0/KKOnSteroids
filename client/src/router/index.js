@@ -100,7 +100,7 @@ const router = createRouter({
       component: CreateNewProduct
     },
     {
-      path: '/admin/products/edit/:id',
+      path: '/admin/products/edit/:slug',
       name: 'editProduct',
       component: EditProduct
     },

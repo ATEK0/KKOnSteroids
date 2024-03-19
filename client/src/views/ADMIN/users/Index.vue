@@ -22,8 +22,12 @@ if (!userInfo.role) {
         <h3>Manage Users</h3>
         <small>Here you can manage and check all the users in the website</small>
 
+        <div class="d-flex justify-content-between align-items-center">
+            <input v-model="searchQuery" type="text" placeholder="Search product" class="form-control w-25">
+            <button class="btn btn-primary my-2">Add User</button>
+        </div>
 
-        <input v-model="searchQuery" type="text" placeholder="Search product" class="form-control mt-3 w-25">
+
         <DataTable :value="filteredRequests" stripedRows columnResizeMode="fit" removableSort paginator :rows="15"
             :rowsPerPageOptions="[15, 25, 50, 100]" tableStyle="min-width: 50rem;cursor:pointer;"
             paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
@@ -71,9 +75,8 @@ if (!userInfo.role) {
         </DataTable>
     </div>
 
-
-    <div class="modal fade" id="userUpdateModal" tabindex="-1" aria-labelledby="userUpdateModal"
-        aria-hidden="true">
+    <!-- user update Modal -->
+    <div class="modal fade" id="userUpdateModal" tabindex="-1" aria-labelledby="userUpdateModal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -101,6 +104,7 @@ if (!userInfo.role) {
             </div>
         </div>
     </div>
+    
 
 </template>
 

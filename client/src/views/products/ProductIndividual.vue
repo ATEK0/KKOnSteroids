@@ -93,7 +93,7 @@ export default {
         return {
             username: '',
             result: ' ',
-            markets: ''
+            markets: '',
         };
     },
     methods: {
@@ -131,4 +131,4 @@ export default {
         }
     }
 };
-</script>../../config.js
+</script>
