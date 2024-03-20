@@ -45,12 +45,17 @@ body {
     border: 2px solid var(--main-yellow);
 }
 
-/* .navbar {
-    background-color: var(--main-yellow);
+ td {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.p-sortable-column {
+    padding: 15px;
 }
 
 .nav-link {
-    color: white !important;
+    /* color: white !important; */
     font-weight: bold;
 
 }
@@ -94,7 +99,7 @@ body {
 
 .nav-menus:hover .user-dropdown {
     display: block;
-} */
+} 
 
 .user-dropdown {
     display: none;
@@ -189,7 +194,8 @@ body {
 
     .p-datatable .p-sortable-column.p-highlight,
     .p-datatable .p-sortable-column.p-highlight {
-        background: #ffbe0bab !important;
+        /* background: #ffbe0bab !important; */
+        background: rgba(93, 135, 255, 0.1) !important;
         background-clip: border-box;
         color: black !important;
     }
@@ -201,7 +207,7 @@ body {
 
 @layer primevue {
     .p-datatable.p-datatable-striped .p-datatable-tbody>tr.p-row-odd {
-        background: #fff7e1 !important;
+        background: rgba(93, 135, 255, 0.1) !important;
     }
 }
 

@@ -57,7 +57,7 @@ class AuthController extends Controller
         if ($this->checkIfAdmin($request)) {
 
             User::find($request->id)->delete();
-
+            
             return response()->json(['message' => 'User deleted'], 201);
         } else {
             return response()->json(['message' => 'Unauthorized'], 401);

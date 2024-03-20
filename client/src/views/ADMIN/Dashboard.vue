@@ -9,6 +9,7 @@ import ProductsCard from '@/views/ADMIN/products/DashboardCard.vue'
 import UsersCard from '@/views/ADMIN/users/DashboardCard.vue'
 import RequestsCard from '@/views/ADMIN/product requests/DashboardCard.vue'
 
+import ProfileImage from '@/assets/images/profile/user-1.jpg'
 
 let userInfo = userLogged()
 

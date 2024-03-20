@@ -7,7 +7,7 @@ let userInfo = userLogged()
 <template>
     <main>
 
-        <nav class="navbar navbar-expand-lg navbar-light">
+        <nav class="navbar navbar-expand-lg navbar-light" style="background-color:#FFBE0B;">
             <div class="container-fluid gap-2">
                 <a class="navbar-brand" href="/">KKOnSteroids</a>
 
