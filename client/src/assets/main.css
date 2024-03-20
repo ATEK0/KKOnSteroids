@@ -45,6 +45,7 @@ body {
     border: 2px solid var(--main-yellow);
 }
 
+<<<<<<< HEAD
  td {
     padding-left: 15px;
     padding-right: 15px;
@@ -52,6 +53,10 @@ body {
 
 .p-sortable-column {
     padding: 15px;
+=======
+.navbar {
+    background-color: var(--main-yellow);
+>>>>>>> parent of dd32b8c (Admin Template)
 }
 
 .nav-link {
@@ -99,7 +104,11 @@ body {
 
 .nav-menus:hover .user-dropdown {
     display: block;
+<<<<<<< HEAD
 } 
+=======
+}
+>>>>>>> parent of dd32b8c (Admin Template)
 
 .user-dropdown {
     display: none;
