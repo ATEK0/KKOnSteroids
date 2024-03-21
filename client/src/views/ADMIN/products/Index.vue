@@ -1,6 +1,5 @@
 <script setup>
 import { userLogged } from '@/stores/loggedUserInfo.js';
-import NavBar from '@/components/Navbar.vue'
 
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
@@ -20,10 +19,21 @@ if (!userInfo.role) {
 
     <SideNavBar>
         <template v-slot>
-
-            <h3>Manage Products</h3>
-            <small>Here you can manage and check all the categories in the website</small>
-
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Products</h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="/admin/categories">Products</a></li>
+                                <li class="breadcrumb-item active">Manage</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
             <div class="d-flex justify-content-between align-items-center">
                 <input v-model="searchQuery" type="text" placeholder="Search product" class="form-control w-25">
@@ -59,7 +69,7 @@ if (!userInfo.role) {
                     </template>
                 </Column>
 
-                <Column header="Actions" style="width: 20%; text-align: center;">
+                <Column header="Actions" style="width: 30%; text-align: center;">
                     <template #body="rowData">
                         <button @click="editProduct(rowData)" data-bs-toggle="modal"
                             data-bs-target="#categoryUpdateModal" class="btn">

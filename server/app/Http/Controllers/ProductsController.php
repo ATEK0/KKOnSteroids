@@ -10,6 +10,7 @@ use App\Models\ProductLinks;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\AuthController;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 
 class ProductsController extends Controller
@@ -61,6 +62,7 @@ class ProductsController extends Controller
             $product->created_by = $user->id;
             $product->description = $product_info['description'];
             $product->slug = '';
+            $product->productImage = $product_info['productImage'];
             $product->lowerprice = '9999999999999';
             $product->save();
             $product->slug = preg_replace('/\s+/', '-', $product_info['name']) . '-' . $product->id;
@@ -119,10 +121,17 @@ class ProductsController extends Controller
     {
         $product = Products::where('slug', $request->slug)->first();
 
+        if (!$product) {
+            return response()->json('', 200);
+        }
+        $product->clicks = $product->clicks + 1;
+        $product->save();
+
         $categories = ProductCategories::where('product_id', $product->id)
             ->join('categories', 'product_categories.category_id', '=', 'categories.id')
             ->select('categories.*')
             ->get();
+
 
         $product->categories = $categories;
 
@@ -139,9 +148,7 @@ class ProductsController extends Controller
 
     public function getMarkets(Request $request)
     {
-        $markets = ProductLinks::where('product_id', $request->id)->get();
-
-        return $markets;
+        return ProductLinks::where('product_id', $request->id)->get();
     }
 
     public function delete(Request $request)
@@ -239,5 +246,49 @@ class ProductsController extends Controller
         } else {
             return "not authorized";
         }
+    }
+
+    public function getMostView()
+    {
+        return Products::orderBy('clicks', 'desc')->take(10)->get();
+    }
+
+    public function getHotDeal()
+    {
+        return Products::where('isTodayStar', '=', 1)->first();
+    }
+
+    public function getProductsByCategory(Request $request)
+    {
+        $categoryName = $request->category;
+
+        $category = Categories::where('name', $categoryName)->first();
+
+        if (!$category) {
+            return response()->json(['error' => ''], 404);
+        }
+
+        $categoryProducts = ProductCategories::where('category_id', $category->id)->get();
+
+        $productIds = $categoryProducts->pluck('product_id')->toArray();
+
+        $products = Products::whereIn('id', $productIds)->get();
+
+        return response()->json($products, 200);
+    }
+
+    public function getRecommendedProducts(Request $request)
+    {
+        $categoryIds = $request->category_id;
+
+        $flattenedCategoryIds = Arr::flatten($categoryIds);
+
+        $categoryProducts = ProductCategories::whereIn('category_id', $flattenedCategoryIds)->get();
+
+        $productIds = $categoryProducts->pluck('product_id')->toArray();
+
+        $products = Products::whereIn('id', $productIds)->take(8)->get();
+
+        return response()->json($products, 200);
     }
 }

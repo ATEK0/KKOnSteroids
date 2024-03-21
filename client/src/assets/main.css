@@ -45,19 +45,9 @@ body {
     border: 2px solid var(--main-yellow);
 }
 
-<<<<<<< HEAD
- td {
-    padding-left: 15px;
-    padding-right: 15px;
-}
-
-.p-sortable-column {
-    padding: 15px;
-=======
-.navbar {
+/* .navbar {
     background-color: var(--main-yellow);
->>>>>>> parent of dd32b8c (Admin Template)
-}
+} */
 
 .nav-link {
     /* color: white !important; */
@@ -104,11 +94,7 @@ body {
 
 .nav-menus:hover .user-dropdown {
     display: block;
-<<<<<<< HEAD
-} 
-=======
 }
->>>>>>> parent of dd32b8c (Admin Template)
 
 .user-dropdown {
     display: none;
@@ -221,7 +207,7 @@ body {
 }
 
 .bestPrice {
-    font-size: 50px;
+    font-size: 40px;
     font-weight: bold;
     color: var(--main-yellow);
 }

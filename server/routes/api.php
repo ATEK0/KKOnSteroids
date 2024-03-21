@@ -53,6 +53,11 @@ Route::post('/getMarkets', [ProductsController::class,'getMarkets']);
 Route::post('/getProducts', [ProductsController::class,'getProducts']);
 Route::post('/deleteProduct', [ProductsController::class,'delete']);
 Route::post('/updateProduct', [ProductsController::class,'update']);
+Route::post('/mostView', [ProductsController::class,'getMostView']);
+Route::post('/getHotDeal', [ProductsController::class,'getHotDeal']);
+Route::post('/getProductsByCategory', [ProductsController::class,'getProductsByCategory']);
+Route::post('/getRecomendedProducts', [ProductsController::class,'getRecommendedProducts']);
+
 
 //product request routes
 Route::post('/getRequestsCount', [ProductRequestsController::class,'getCount']);
@@ -65,6 +70,7 @@ Route::post('/activateRequest', [ProductRequestsController::class,'activate']);
 //user routes
 Route::post('/getUsersCount', [UserController::class,'getCount']);
 Route::post('/getUsers', [UserController::class,'getUsers']);
+
 
 
 //teste webscrapper

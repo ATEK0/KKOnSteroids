@@ -1,6 +1,6 @@
 <script setup>
 import { userLogged } from '@/stores/loggedUserInfo.js';
-import NavBar from '@/components/Navbar.vue'
+import SideBarNav from '@/components/NavAdmin.vue'
 import Badge from 'primevue/badge';
 
 let userInfo = userLogged()
@@ -11,95 +11,116 @@ if (!userInfo.role == 'Admin') {
 </script>
 <template>
 
-    <NavBar />
-    <form @submit.prevent="submitForm" class="container mt-3 d-flex flex-column gap-4">
+    <SideBarNav>
+        <template v-slot>
 
-        <h4 class="d-flex align-items-center gap-2"> ID - {{ request.id }}
-            <Badge v-if="request.status == 'Open'" severity="success">{{ request.status }}</Badge>
-            <Badge v-if="request.status == 'Accepted'" severity="primary">{{ request.status }}</Badge>
-            <Badge v-if="request.status == 'Refused'" severity="danger">{{ request.status }}</Badge>
-        </h4>
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h6 class="d-flex align-items-center gap-2 w-100">{{ request.id }}
+                                <Badge v-if="request.status == 'Open'" severity="success">{{ request.status }}</Badge>
+                                <Badge v-if="request.status == 'Accepted'" severity="primary">{{ request.status }}
+                                </Badge>
+                                <Badge v-if="request.status == 'Refused'" severity="danger">{{ request.status }}</Badge>
+                            </h6>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="/admin/requests">Product Requests</a></li>
+                                <li class="breadcrumb-item active">Evaluate</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-        <h3>Request information</h3>
+            <form @submit.prevent="submitForm" class="mt-3 d-flex flex-column gap-4">
 
-        <FloatLabel>
-            <InputText id="name" :disabled="isDisabled" class="w-100" v-model="request.name" required />
-            <label for="name">Product Name</label>
-        </FloatLabel>
+                <h3>Request information</h3>
 
-        <FloatLabel>
-            <Textarea v-model="description" required :disabled="isDisabled" rows="5" cols="30" class="w-100" />
-            <label>Description</label>
-        </FloatLabel>
-        <div class="d-flex flex-row gap-3 w-100">
+                <FloatLabel>
+                    <InputText id="name" :disabled="isDisabled" class="w-100" v-model="request.name" required />
+                    <label for="name">Product Name</label>
+                </FloatLabel>
 
-            <Dropdown v-model="newStatus" :disabled="isDisabled" :options="status" optionLabel="name"
-                placeholder='Status' class="w-25" />
+                <FloatLabel>
+                    <Textarea v-model="description" required :disabled="isDisabled" rows="5" cols="30" class="w-100" />
+                    <label>Description</label>
+                </FloatLabel>
+                <div class="d-flex flex-row gap-3 w-100">
 
-            <FloatLabel class="w-25">
-                <InputText id="size" :disabled="isDisabled" class="w-100" v-model="request.size" required />
-                <label for="size">Size</label>
-            </FloatLabel>
+                    <Dropdown v-model="newStatus" :disabled="isDisabled" :options="status" optionLabel="name"
+                        placeholder='Status' class="w-25" />
 
-            <FloatLabel class="w-25">
-                <InputText id="brand" :disabled="isDisabled" class="w-100" v-model="request.brand" required />
-                <label for="brand">Brand</label>
-            </FloatLabel>
+                    <FloatLabel class="w-25">
+                        <InputText id="size" :disabled="isDisabled" class="w-100" v-model="request.size" required />
+                        <label for="size">Size</label>
+                    </FloatLabel>
 
-            <FloatLabel class="w-25">
-                <InputText id="requestedBy" class="w-100" disabled v-model="request.requested_by" required />
-                <label for="requestedBy">Requested By</label>
-            </FloatLabel>
+                    <FloatLabel class="w-25">
+                        <InputText id="brand" :disabled="isDisabled" class="w-100" v-model="request.brand" required />
+                        <label for="brand">Brand</label>
+                    </FloatLabel>
 
-        </div>
+                    <FloatLabel class="w-25">
+                        <InputText id="requestedBy" class="w-100" disabled v-model="request.requested_by" required />
+                        <label for="requestedBy">Requested By</label>
+                    </FloatLabel>
 
-        <MultiSelect v-model="selectedCategories" :disabled="isDisabled" display="chip" :options="categories"
-            optionLabel="name" required placeholder="Select Categories" :maxSelectedLabels="5"
-            class="w-full md:w-20rem" />
+                </div>
 
-
-        <h3 class="w-fit">Links for the product
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="15px" class="add-product-link"
-                @click="addLinkRow" v-if="!isDisabled">
-                <path
-                    d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM232 344V280H168c-13.3 0-24-10.7-24-24s10.7-24 24-24h64V168c0-13.3 10.7-24 24-24s24 10.7 24 24v64h64c13.3 0 24 10.7 24 24s-10.7 24-24 24H280v64c0 13.3-10.7 24-24 24s-24-10.7-24-24z" />
-            </svg>
-
-        </h3>
+                <MultiSelect v-model="selectedCategories" :disabled="isDisabled" display="chip" :options="categories"
+                    optionLabel="name" required placeholder="Select Categories" :maxSelectedLabels="5"
+                    class="w-full md:w-20rem" />
 
 
-        <div v-for="link, index in request.links" class="w-100 d-flex flex-row gap-1">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="15px" role="button"
-                class="remove-product-link" @click="removeLinkRow(index)" v-if="!isDisabled">
-                <path
-                    d="M432 256c0 17.7-14.3 32-32 32L48 288c-17.7 0-32-14.3-32-32s14.3-32 32-32l352 0c17.7 0 32 14.3 32 32z" />
-            </svg>
-            <FloatLabel class="w-75">
-                <InputText :id="'link-' + index" :disabled="isDisabled" class="w-100" v-model="link.link" />
-                <label :for="'link-' + index">Link {{ index + 1 }}</label>
-            </FloatLabel>
+                <h3 class="w-fit">Links for the product
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="15px" class="add-product-link"
+                        @click="addLinkRow" v-if="!isDisabled">
+                        <path
+                            d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM232 344V280H168c-13.3 0-24-10.7-24-24s10.7-24 24-24h64V168c0-13.3 10.7-24 24-24s24 10.7 24 24v64h64c13.3 0 24 10.7 24 24s-10.7 24-24 24H280v64c0 13.3-10.7 24-24 24s-24-10.7-24-24z" />
+                    </svg>
 
-            <FloatLabel class="w-25">
-                <InputText :id="'html-' + index" :disabled="isDisabled" class="w-100" v-model="htmlElements[index]" />
-                <label :for="'html-' + index">Element {{ index + 1 }}</label>
-            </FloatLabel>
+                </h3>
 
-            <span verified="false" :id="'verified-' + index" class="d-none"></span>
 
-            <button class="btn btn-primary-outlined" @click="testLink(index)" type="button" :id="'test-' + index"
-                :disabled="isDisabled">Test</button>
-        </div>
+                <div v-for="link, index in request.links" class="w-100 d-flex flex-row gap-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="15px" role="button"
+                        class="remove-product-link" @click="removeLinkRow(index)" v-if="!isDisabled">
+                        <path
+                            d="M432 256c0 17.7-14.3 32-32 32L48 288c-17.7 0-32-14.3-32-32s14.3-32 32-32l352 0c17.7 0 32 14.3 32 32z" />
+                    </svg>
+                    <FloatLabel class="w-75">
+                        <InputText :id="'link-' + index" :disabled="isDisabled" class="w-100" v-model="link.link" />
+                        <label :for="'link-' + index">Link {{ index + 1 }}</label>
+                    </FloatLabel>
 
-        <div class="d-flex gap-1 flex-row-reverse">
-            <button type="submit" v-if="request.status == 'Open'" class="btn btn-primary">Approve</button>
-            <button type="button" v-if="request.status == 'Open'" @click="rejectRequest"
-                class="btn btn-danger">Refuse</button>
-            <button type="button" v-if="request.status == 'Refused'" @click="activateRequest"
-                class="btn btn-success">Activate</button>
-            <button type="button" class="btn btn-secondary">Cancel</button>
-        </div>
+                    <FloatLabel class="w-25">
+                        <InputText :id="'html-' + index" :disabled="isDisabled" class="w-100"
+                            v-model="htmlElements[index]" />
+                        <label :for="'html-' + index">Element {{ index + 1 }}</label>
+                    </FloatLabel>
 
-    </form>
+                    <span verified="false" :id="'verified-' + index" class="d-none"></span>
+
+                    <button class="btn btn-primary-outlined" @click="testLink(index)" type="button"
+                        :id="'test-' + index" :disabled="isDisabled">Test</button>
+                </div>
+
+                <div class="d-flex gap-1 flex-row-reverse">
+                    <button type="submit" v-if="request.status == 'Open'" class="btn btn-primary">Approve</button>
+                    <button type="button" v-if="request.status == 'Open'" @click="rejectRequest"
+                        class="btn btn-danger">Refuse</button>
+                    <button type="button" v-if="request.status == 'Refused'" @click="activateRequest"
+                        class="btn btn-success">Activate</button>
+                    <a href="/admin/requests"><button type="button" class="btn btn-secondary">Cancel</button></a>
+                </div>
+
+            </form>
+
+        </template>
+    </SideBarNav>
 
 </template>
 
@@ -247,9 +268,9 @@ export default {
                             "dangerouslyHTMLString": true
                         })
 
-                        setTimeout(() => {window.location.reload()},
-                        1200)
-                        
+                        setTimeout(() => { window.location.reload() },
+                            1200)
+
 
                     })
                     .catch(error => {

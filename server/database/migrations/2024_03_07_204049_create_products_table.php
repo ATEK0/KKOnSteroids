@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('brand');
             $table->string('size');
             $table->text('description');
+            $table->text('productImage');
             $table->text('lowerprice');
             $table->string('requestID')->nullable(true);
             $table->string('slug')->unique();

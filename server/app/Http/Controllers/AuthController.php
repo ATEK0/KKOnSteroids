@@ -16,6 +16,7 @@ class AuthController extends Controller
             "password" => ["required"],
         ]);
 
+
         if (!$token = JWTAuth::attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
@@ -40,11 +41,22 @@ class AuthController extends Controller
     {
         if ($this->checkIfAdmin($request)) {
 
-            $user = User::create([
-                "name" => $request->name,
-                "email" => $request->email,
-                "password" => bcrypt($request->password),
-            ]);
+            $user = User::where('id', '=', $request->idtoChange)->first();
+
+            $emailExist = User::where('email', $request->email)->first();
+
+            if ($emailExist && $user->email != $request->email) {
+                return response()->json(['error'=> 'Email Already in Use'], 409);
+            }
+
+            $user->name = $request->name;
+            $user->email = $request->email;
+
+            if ($user->password) {
+                $user->password = bcrypt($request->password);
+            }
+
+            $user->save();
 
             return response()->json(['message' => 'User registred'], 201);
         } else {
@@ -57,7 +69,7 @@ class AuthController extends Controller
         if ($this->checkIfAdmin($request)) {
 
             User::find($request->id)->delete();
-            
+
             return response()->json(['message' => 'User deleted'], 201);
         } else {
             return response()->json(['message' => 'Unauthorized'], 401);
@@ -71,21 +83,17 @@ class AuthController extends Controller
 
     public function me(Request $request)
     {
-        try {
-            $token = $request->bearerToken();
+        $token = $request->bearerToken();
 
-            $JWTdecoded = JWTAuth::parseToken()->authenticate();
+        $JWTdecoded = JWTAuth::parseToken()->authenticate();
 
-            $user = User::where('email', $JWTdecoded->email)->first();
+        $user = User::where('email', $JWTdecoded->email)->first();
 
-            $userRoleLabel = User_Roles::where('id', $user->role)->first();
+        $userRoleLabel = User_Roles::where('id', $user->role)->first();
 
-            $user->role = $userRoleLabel->role;
+        $user->role = $userRoleLabel->role;
 
-            return $user;
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'Unauthorized'], 401);
-        }
+        return $user;
     }
 
     public function checkIfAdmin(Request $request)

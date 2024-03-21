@@ -19,106 +19,64 @@ let userInfo = userLogged()
 
       <HomePageCarousel />
 
-      <h4>Categories</h4>
 
-      <div class="d-flex gap-2">
-        <div class="category card p-2" style="width: fit-content;" v-for="category in categories">
-          {{ category.name }}
+      <h4 class="mt-3">Categories</h4>
+      <div class="overflow-hidden">
+        <div class="overflow-auto d-flex">
+          <div v-for="category in categories" class="gap-1 col-6 col-sm-4 col-md-3 col-lg-2">
+            <a :href="'/category/' + category.name">
+              <div class="p-2 text-center"
+                style="display: flex;align-items: center;justify-content: center;flex-direction: column;">
+                <img :src="category.imageLink" width="100%" style="object-fit: cover;width: 150px;height: 150px;"
+                  class="img-fluid rounded-lg">
+                <span class="fw-bold">{{ category.name }}</span>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card w-100 rounded my-5"
+        style="background-color: white;color: var(--platform-black);border: 2.5px solid var(--main-yellow) !important;">
+        <div class="row">
+
+          <div class="col-12 col-md-4 col-lg-4 p-3 m-auto">
+            <img :src="hotDeal.productImage" class="img-fluid rounded-lg">
+          </div>
+          <div class="col-12 col-md-8 col-lg-8 text-start  p-3" style="background-color: var(--main-yellow);">
+            <h3 class="fw-bold">Todays Hot Deal</h3>
+
+            <p>{{ hotDeal.name }}</p>
+
+            <h5>{{ hotDeal.brand }}</h5>
+
+            <h2 class="fw-bold">{{ hotDeal.lowerprice }}€</h2>
+
+            <a :href="'/product/' + hotDeal.slug"><button class="btn btn-primary" style="border-color: white;">See
+                Product</button></a>
+            <br>
+            <small style="font-family:Arial, Helvetica, sans-serif;font-weight: bold;"> Este produto deixa o destaque em
+              {{ dayCounter }} </small>
+
+          </div>
+
         </div>
       </div>
 
       <div class="py-2">
         <h2 class="font-weight-light">Most Viewed</h2>
         <div class="d-flex align-items-center">
-          <div class="d-flex flex-row gap-2" style="overflow-x:scroll;" id="container-most-view">
-            <div class="card card-body product-card">
-              <img :src="testImage" alt="" sizes="" srcset="">
-              <h6 class="product-title"><a href="/product/1234">Name...</a></h6>
-              <small class="product-description">Small description about this product to test if it TU TU TU TU MAX
-                VERSTAPPEN M...</small>
-              <div class="d-flex flex-row justify-content-between w-100 align-items-center my-2">
-                <span class="price">1000,99€</span>
-                <a href="/product/1234"><button class="btn btn-primary">Ver</button></a>
+          <div class="d-flex flex-row gap-2 p-2" style="overflow-x:scroll;" id="container-most-view">
+
+            <div class="card product-card col-2 justify-content-end p-2 mb-0" v-for="product in mostViewList">
+              <img :src="product.productImage" alt="" class="img-fluid m-auto p-2">
+              <h6 class="product-title"><a :href="'/product/' + product.slug">{{ product.name.slice(0, 20) }}</a></h6>
+              <small class="product-description text-start">{{ product.description.slice(0, 45) }}...</small>
+              <div class="d-flex flex-row justify-content-between w-100 align-items-center my-2 px-2">
+                <span class="price">{{ product.lowerprice }}€</span>
+                <a :href="'/product/' + product.slug"><button class="btn btn-primary">Ver</button></a>
               </div>
             </div>
-
-            <div class="card card-body product-card">
-              <img :src="testImage" alt="" sizes="" srcset="">
-              <h6 class="product-title"><a href="/product/1234">Name...</a></h6>
-              <small class="product-description">Small description about this product to test if it TU TU TU TU MAX
-                VERSTAPPEN M...</small>
-              <div class="d-flex flex-row justify-content-between w-100 align-items-center my-2">
-                <span class="price">1000,99€</span>
-                <a href="/product/1234"><button class="btn btn-primary">Ver</button></a>
-              </div>
-            </div>
-
-            <div class="card card-body product-card">
-              <img :src="testImage" alt="" sizes="" srcset="">
-              <h6 class="product-title"><a href="/product/1234">Name...</a></h6>
-              <small class="product-description">Small description about this product to test if it TU TU TU TU MAX
-                VERSTAPPEN M...</small>
-              <div class="d-flex flex-row justify-content-between w-100 align-items-center my-2">
-                <span class="price">1000,99€</span>
-                <a href="/product/1234"><button class="btn btn-primary">Ver</button></a>
-              </div>
-            </div>
-
-            <div class="card card-body product-card">
-              <img :src="testImage" alt="" sizes="" srcset="">
-              <h6 class="product-title"><a href="/product/1234">Name...</a></h6>
-              <small class="product-description">Small description about this product to test if it TU TU TU TU MAX
-                VERSTAPPEN M...</small>
-              <div class="d-flex flex-row justify-content-between w-100 align-items-center my-2">
-                <span class="price">1000,99€</span>
-                <a href="/product/1234"><button class="btn btn-primary">Ver</button></a>
-              </div>
-            </div>
-
-            <div class="card card-body product-card">
-              <img :src="testImage" alt="" sizes="" srcset="">
-              <h6 class="product-title"><a href="/product/1234">Name...</a></h6>
-              <small class="product-description">Small description about this product to test if it TU TU TU TU MAX
-                VERSTAPPEN M...</small>
-              <div class="d-flex flex-row justify-content-between w-100 align-items-center my-2">
-                <span class="price">1000,99€</span>
-                <a href="/product/1234"><button class="btn btn-primary">Ver</button></a>
-              </div>
-            </div>
-
-            <div class="card card-body product-card">
-              <img :src="testImage" alt="" sizes="" srcset="">
-              <h6 class="product-title"><a href="/product/1234">Name...</a></h6>
-              <small class="product-description">Small description about this product to test if it TU TU TU TU MAX
-                VERSTAPPEN M...</small>
-              <div class="d-flex flex-row justify-content-between w-100 align-items-center my-2">
-                <span class="price">1000,99€</span>
-                <a href="/product/1234"><button class="btn btn-primary">Ver</button></a>
-              </div>
-            </div>
-
-            <div class="card card-body product-card">
-              <img :src="testImage" alt="" sizes="" srcset="">
-              <h6 class="product-title"><a href="/product/1234">Name...</a></h6>
-              <small class="product-description">Small description about this product to test if it TU TU TU TU MAX
-                VERSTAPPEN M...</small>
-              <div class="d-flex flex-row justify-content-between w-100 align-items-center my-2">
-                <span class="price">1000,99€</span>
-                <a href="/product/1234"><button class="btn btn-primary">Ver</button></a>
-              </div>
-            </div>
-
-            <div class="card card-body product-card">
-              <img :src="testImage" alt="" sizes="" srcset="">
-              <h6 class="product-title"><a href="/product/1234">Name...</a></h6>
-              <small class="product-description">Small description about this product to test if it TU TU TU TU MAX
-                VERSTAPPEN M...</small>
-              <div class="d-flex flex-row justify-content-between w-100 align-items-center my-2">
-                <span class="price">1000,99€</span>
-                <a href="/product/1234"><button class="btn btn-primary">Ver</button></a>
-              </div>
-            </div>
-
 
           </div>
           <span><svg xmlns="http://www.w3.org/2000/svg" width="20px" @click="scrollproductCarroussel" id="most-view"
@@ -128,109 +86,6 @@ let userInfo = userLogged()
             </svg></span>
         </div>
       </div>
-
-      <div class="py-2">
-        <h2 class="font-weight-light">Most Viewed</h2>
-        <div class="d-flex align-items-center">
-          <div class="d-flex flex-row gap-2" style="overflow-x: scroll;" id="container-most-view">
-            <div class="card card-body product-card">
-              <img :src="testImage" alt="" sizes="" srcset="">
-              <h6 class="product-title"><a href="/product/1234">Name...</a></h6>
-              <small class="product-description">Small description about this product to test if it TU TU TU TU MAX
-                VERSTAPPEN M...</small>
-              <div class="d-flex flex-row justify-content-between w-100 align-items-center my-2">
-                <span class="price">1000,99€</span>
-                <a href="/product/1234"><button class="btn btn-primary">Ver</button></a>
-              </div>
-            </div>
-
-            <div class="card card-body product-card">
-              <img :src="testImage" alt="" sizes="" srcset="">
-              <h6 class="product-title"><a href="/product/1234">Name...</a></h6>
-              <small class="product-description">Small description about this product to test if it TU TU TU TU MAX
-                VERSTAPPEN M...</small>
-              <div class="d-flex flex-row justify-content-between w-100 align-items-center my-2">
-                <span class="price">1000,99€</span>
-                <a href="/product/1234"><button class="btn btn-primary">Ver</button></a>
-              </div>
-            </div>
-
-            <div class="card card-body product-card">
-              <img :src="testImage" alt="" sizes="" srcset="">
-              <h6 class="product-title"><a href="/product/1234">Name...</a></h6>
-              <small class="product-description">Small description about this product to test if it TU TU TU TU MAX
-                VERSTAPPEN M...</small>
-              <div class="d-flex flex-row justify-content-between w-100 align-items-center my-2">
-                <span class="price">1000,99€</span>
-                <a href="/product/1234"><button class="btn btn-primary">Ver</button></a>
-              </div>
-            </div>
-
-            <div class="card card-body product-card">
-              <img :src="testImage" alt="" sizes="" srcset="">
-              <h6 class="product-title"><a href="/product/1234">Name...</a></h6>
-              <small class="product-description">Small description about this product to test if it TU TU TU TU MAX
-                VERSTAPPEN M...</small>
-              <div class="d-flex flex-row justify-content-between w-100 align-items-center my-2">
-                <span class="price">1000,99€</span>
-                <a href="/product/1234"><button class="btn btn-primary">Ver</button></a>
-              </div>
-            </div>
-
-            <div class="card card-body product-card">
-              <img :src="testImage" alt="" sizes="" srcset="">
-              <h6 class="product-title"><a href="/product/1234">Name...</a></h6>
-              <small class="product-description">Small description about this product to test if it TU TU TU TU MAX
-                VERSTAPPEN M...</small>
-              <div class="d-flex flex-row justify-content-between w-100 align-items-center my-2">
-                <span class="price">1000,99€</span>
-                <a href="/product/1234"><button class="btn btn-primary">Ver</button></a>
-              </div>
-            </div>
-
-            <div class="card card-body product-card">
-              <img :src="testImage" alt="" sizes="" srcset="">
-              <h6 class="product-title"><a href="/product/1234">Name...</a></h6>
-              <small class="product-description">Small description about this product to test if it TU TU TU TU MAX
-                VERSTAPPEN M...</small>
-              <div class="d-flex flex-row justify-content-between w-100 align-items-center my-2">
-                <span class="price">1000,99€</span>
-                <a href="/product/1234"><button class="btn btn-primary">Ver</button></a>
-              </div>
-            </div>
-
-            <div class="card card-body product-card">
-              <img :src="testImage" alt="" sizes="" srcset="">
-              <h6 class="product-title"><a href="/product/1234">Name...</a></h6>
-              <small class="product-description">Small description about this product to test if it TU TU TU TU MAX
-                VERSTAPPEN M...</small>
-              <div class="d-flex flex-row justify-content-between w-100 align-items-center my-2">
-                <span class="price">1000,99€</span>
-                <a href="/product/1234"><button class="btn btn-primary">Ver</button></a>
-              </div>
-            </div>
-
-            <div class="card card-body product-card">
-              <img :src="testImage" alt="" sizes="" srcset="">
-              <h6 class="product-title"><a href="/product/1234">Name...</a></h6>
-              <small class="product-description">Small description about this product to test if it TU TU TU TU MAX
-                VERSTAPPEN M...</small>
-              <div class="d-flex flex-row justify-content-between w-100 align-items-center my-2">
-                <span class="price">1000,99€</span>
-                <a href="/product/1234"><button class="btn btn-primary">Ver</button></a>
-              </div>
-            </div>
-
-
-          </div>
-          <span><svg xmlns="http://www.w3.org/2000/svg" width="20px" @click="scrollproductCarroussel" id="most-view"
-              viewBox="0 0 320 512">
-              <path
-                d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z" />
-            </svg></span>
-        </div>
-      </div>
-
 
     </div>
 
@@ -248,20 +103,53 @@ export default {
   data() {
     return {
       user: '',
-      categories: []
+      categories: [],
+      mostViewList: [],
+      hotDeal: '',
+      dayCounter: ''
     };
   },
   beforeMount() {
     axios.post(apiLink + "/api/getCategories")
       .then(({ data }) => {
 
-        this.categories = data
-        console.log(this.categories[0].name)
+        const shuffleArray = (array) => {
+          return array.sort(() => Math.random() - 0.5);
+        };
+        this.categories = shuffleArray(data)
+      });
 
-      })
-      .catch(error => {
+    axios.post(apiLink + "/api/mostView")
+      .then(({ data }) => {
+
+        this.mostViewList = data
 
       });
+
+    axios.post(apiLink + "/api/getHotDeal")
+      .then(({ data }) => {
+        console.log(data)
+        this.hotDeal = data
+
+      });
+
+    setInterval(() => {
+      var toDate = new Date();
+      var tomorrow = new Date();
+      tomorrow.setHours(24, 0, 0, 0);
+      var diffMS = tomorrow.getTime() / 1000 - toDate.getTime() / 1000;
+      var diffHr = Math.floor(diffMS / 3600);
+      diffMS = diffMS - diffHr * 3600;
+      var diffMi = Math.floor(diffMS / 60);
+      diffMS = diffMS - diffMi * 60;
+      var diffS = Math.floor(diffMS);
+      var result = ((diffHr < 10) ? "0" + diffHr : diffHr);
+      result += ":" + ((diffMi < 10) ? "0" + diffMi : diffMi);
+      result += ":" + ((diffS < 10) ? "0" + diffS : diffS);
+      this.dayCounter = result
+
+    }, 1000);
+
   },
   methods: {
     scrollproductCarroussel(event) {

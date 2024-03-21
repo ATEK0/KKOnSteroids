@@ -13,7 +13,7 @@ let userInfo = userLogged()
 
                 <div v-if="userInfo.name" class="nav-menus">
 
-                    <label class="nav-btn text-center">{{ (userInfo.name) }}</label>
+                    <span class="nav-btn text-center">{{ (userInfo.name) }}</span>
                     <div class="user-dropdown" style="position:absolute;width: 100px;text-align:center;;">
                         <a href="/account"><label class="p-2">Account</label></a>
                         <a href="/logout"><label class="p-2">Logout</label></a>

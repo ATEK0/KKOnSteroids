@@ -6,38 +6,8 @@ let userInfo = userLogged()
 </script>
 <template>
     <NavBar />
-    <div class="container card mt-5">
-        <div class="card-body">
 
-            <h3 class="mb-3">KuantoKusta On Steroids</h3>
-            <form @submit.prevent="processLogin">
-                <div class="mb-3">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="email" aria-describedby="email" v-model="student.email">
-                </div>
-                <div class="mb-4">
-                    <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="password" v-model="student.password">
-                </div>
-                <div class="d-flex align-items-center justify-content-between mb-4">
-                    <div class="form-check">
-                        <input class="form-check-input primary" type="checkbox" value="" id="flexCheckChecked"
-                            checked="">
-                        <label class="form-check-label text-dark" for="flexCheckChecked">
-                            Remeber this Device
-                        </label>
-                    </div>
-                    <!-- <a class="text-primary fw-bold" href="./index.html">Forgot Password ?</a> -->
-                </div>
-                <button type="submit" class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2">Sign In</button>
-                <div class="d-flex align-items-center justify-content-center">
-                    <p class="fs-4 mb-0 fw-bold">New to KuantoKusta On Steroids?</p>
-                    <a class="text-primary fw-bold ms-2" href="/register">Create an account</a>
-                </div>
-            </form>
-        </div>
-    </div>
-    <!-- <div class="container"
+    <div class="container"
         style="height: 70vh;display: flex;justify-content: center;align-items: center;flex-direction: column;">
         <h1 class="mb-3 ">Login into your account</h1>
 
@@ -72,7 +42,7 @@ let userInfo = userLogged()
 
             </div>
         </div>
-    </div> -->
+    </div>
 </template>
 
 <script>

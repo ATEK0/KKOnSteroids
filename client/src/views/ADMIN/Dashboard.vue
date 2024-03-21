@@ -1,17 +1,8 @@
 <script setup>
 import { userLogged } from '@/stores/loggedUserInfo.js';
-import NavBar from '@/components/Navbar.vue'
 
-import CategoriesCard from '@/views/ADMIN/categories/DashboardCard.vue'
-import ProductsCard from '@/views/ADMIN/products/DashboardCard.vue'
-import UsersCard from '@/views/ADMIN/users/DashboardCard.vue'
-import RequestsCard from '@/views/ADMIN/product requests/DashboardCard.vue'
+import NavAdmin from '@/components/NavAdmin.vue'
 
-<<<<<<< HEAD
-import ProfileImage from '@/assets/images/profile/user-1.jpg'
-
-=======
->>>>>>> parent of dd32b8c (Admin Template)
 let userInfo = userLogged()
 
 if (!userInfo.role) {
@@ -29,30 +20,94 @@ if (!userInfo.role) {
 <template>
     <main>
 
-        <NavBar />
+        <NavAdmin>
+            <template v-slot>
+                <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Dashboard</h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="/admin/categories">Dashboard</a></li>
+                                <li class="breadcrumb-item active">Dashboard</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-        <div class="container">
+                <div class="row">
+                    <div class="col-lg-3 col-6">
+                        <!-- small box -->
+                        <div class="small-box bg-lightblue">
+                            <div class="inner">
+                                <h3>{{ productsCount }}</h3>
 
-            <div class="card mt-3 shadow-sm p-5 text-start">
-                <h2>Hello Admin</h2>
-                <p>Welcome to your admin dashboard. Feel free to manage all your website from here.</p>
-            </div>
+                                <p>Products</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fa fa-tag"></i>
+                            </div>
 
-            <div class="row mb-3">
+                            <a href="/admin/products" class="small-box-footer">Details <i
+                                    class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                    <div class="col-lg-3 col-6">
+                        <!-- small box -->
+                        <div class="small-box bg-lightblue">
+                            <div class="inner">
+                                <h3>{{ requestsCount }}</h3>
 
-                <ProductsCard />
+                                <p>Product Requests</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fa fa-inbox"></i>
+                            </div>
+                            <a href="/admin/requests" class="small-box-footer">Details <i
+                                    class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                    <div class="col-lg-3 col-6">
+                        <!-- small box -->
+                        <div class="small-box bg-lightblue">
+                            <div class="inner">
+                                <h3>{{ categoriesCount }}</h3>
 
-                <RequestsCard />
+                                <p>Categories</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fa fa-boxes"></i>
+                            </div>
+                            <a href="/admin/categories" class="small-box-footer">Details <i
+                                    class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                    <div class="col-lg-3 col-6">
+                        <!-- small box -->
+                        <div class="small-box bg-lightblue">
+                            <div class="inner">
+                                <h3>{{ userCount }}</h3>
 
-                <UsersCard />
+                                <p>Users</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fa fa-user"></i>
+                            </div>
+                            <a href="/admin/users" class="small-box-footer">Details <i
+                                    class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                </div>
 
-                <CategoriesCard />
-
-            </div>
-
-
-        </div>
-
+            </template>
+        </NavAdmin>
     </main>
 </template>
 

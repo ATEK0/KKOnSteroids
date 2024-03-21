@@ -6,9 +6,14 @@ import Login from '@/components/Login.vue'
 import Logout from '@/components/Logout.vue'
 import UserInfo from '@/views/UserInfo.vue'
 import Account from '@/views/Account.vue'
-import AdminDashboard from '@/views/ADMIN/Dashboard.vue'
 import ProductIndividual from '@/views/products/ProductIndividual.vue'
 import RequestProductForm from '@/views/RequestProductForm.vue'
+import ProductList from "@/views/products/ProductList.vue"
+import ProductListByCategory from '@/views/products/ProductListByCategory.vue'
+
+
+import AdminDashboard from '@/views/ADMIN/Dashboard.vue'
+
 import ProductRequestDashboard from '@/views/ADMIN/product requests/Index.vue'
 import ProductRequestSingular from '@/views/ADMIN/product requests/RequestSingular.vue'
 
@@ -60,19 +65,29 @@ const router = createRouter({
       component: AdminDashboard
     },
     {
-      path: '/admin/categories',
-      name: 'categoriesDashboard',
-      component: CategoriesDashboard
-    },
-    {
       path: '/product/:slug',
       name: 'productIndividual',
       component: ProductIndividual
     },
     {
+      path: '/products',
+      name: 'productList',
+      component: ProductList
+    },
+    {
       path: '/product/request',
       name: 'requestProduct',
       component: RequestProductForm,
+    },
+    {
+      path: '/category/:category',
+      name: 'ProductListByCategory',
+      component: ProductListByCategory,
+    },
+    {
+      path: '/admin/categories',
+      name: 'categoriesDashboard',
+      component: CategoriesDashboard
     },
     {
       path: '/admin/requests',

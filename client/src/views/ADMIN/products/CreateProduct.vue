@@ -13,13 +13,29 @@ if (!userInfo.role == 'Admin') {
 <template>
     <SideNavBar>
         <template v-slot>
-            <form @submit.prevent="submitForm" class="container mt-3 d-flex flex-column">
 
-                <h3>Create Product</h3>
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Create</h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="/admin/products">Products</a></li>
+                                <li class="breadcrumb-item active">Create</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
+            <form @submit.prevent="submitForm" class=" d-flex flex-column">
                 <label for="name" class="form-label">Name</label>
                 <input type="text" class="form-control" id="name" required v-model="name">
 
+                <label for="imgLink" class="form-label mt-2">Image Link</label>
+                <input type="text" class="form-control" id="imgLink" required v-model="productImage">
 
                 <label for="description" class="form-label mt-2">Description</label>
                 <textarea type="text" class="form-control" id="description" required v-model="description"></textarea>
@@ -38,20 +54,22 @@ if (!userInfo.role == 'Admin') {
 
                 </div>
 
+                <label for="categories" class="form-label mt-2">Categories</label>
                 <MultiSelect v-model="selectedCategories" display="chip" :options="categories" optionLabel="name"
                     required placeholder="Select Categories" :maxSelectedLabels="5" class="w-full md:w-20rem" />
 
 
-                <h3 class="w-fit">Links for the product
+                <div class="d-flex">
+                    <label for="description" class="form-label mt-2 me-2">Description</label>
+
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="15px" class="add-product-link"
                         @click="addLinkRow">
                         <path
                             d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM232 344V280H168c-13.3 0-24-10.7-24-24s10.7-24 24-24h64V168c0-13.3 10.7-24 24-24s24 10.7 24 24v64h64c13.3 0 24 10.7 24 24s-10.7 24-24 24H280v64c0 13.3-10.7 24-24 24s-24-10.7-24-24z" />
                     </svg>
-                </h3>
+                </div>
 
-
-                <div v-for="link, index in links" class="w-100 d-flex flex-row gap-1">
+                <div v-for="link, index in links" class="w-100 d-flex flex-row gap-1 mt-4">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="15px" role="button"
                         class="remove-product-link" @click="removeLinkRow(index)">
                         <path
@@ -73,7 +91,7 @@ if (!userInfo.role == 'Admin') {
                         :id="'test-' + index">Test</button>
                 </div>
 
-                <div class="d-flex gap-1 flex-row-reverse">
+                <div class="d-flex gap-1 flex-row-reverse mt-2">
                     <button type="submit" class="btn btn-primary">Create</button>
                     <button type="button" class="btn btn-secondary">Cancel</button>
                 </div>
@@ -103,7 +121,8 @@ export default {
             links: [{}],
             htmlElements: [],
             selectedCategories: null,
-            categories: []
+            categories: [],
+            productImage: ''
         };
     },
 
@@ -187,7 +206,8 @@ export default {
                     'size': this.size,
                     'category': this.selectedCategories,
                     'links': this.links,
-                    'htmlElements': this.htmlElements
+                    'htmlElements': this.htmlElements,
+                    'productImage': this.productImage
                 }
 
                 axios.defaults.headers.common["Authorization"] =
@@ -203,7 +223,6 @@ export default {
 
                         setTimeout(() => { window.location.href = '/admin/products' },
                             1200)
-
 
                     })
                     .catch(error => {

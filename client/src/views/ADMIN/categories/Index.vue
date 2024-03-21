@@ -19,10 +19,21 @@ if (!userInfo.role) {
 
     <SideNavBar>
         <template v-slot>
-
-            <h3>Manage Categories</h3>
-            <small>Here you can manage and check all the categories in the website</small>
-
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Categories</h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="/admin/categories">Categories</a></li>
+                                <li class="breadcrumb-item active">Manage</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
             <div class="d-flex justify-content-between mt-2">
                 <input v-model="searchQuery" type="text" placeholder="Search product" class="form-control w-25">
@@ -118,7 +129,7 @@ if (!userInfo.role) {
 
 
 
-            <!-- Modal -->
+            <!-- Modal Create -->
             <div class="modal fade" id="categoryAddModal" tabindex="-1" aria-labelledby="categoryAddModal"
                 aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
@@ -129,11 +140,15 @@ if (!userInfo.role) {
                         </div>
                         <div class="modal-body">
                             <div class="">
-                                <label for="exampleInputEmail1" class="form-label">Category Name</label>
-                                <input type="email" class="form-control" id="exampleInputEmail1" v-model="categoryName"
-                                    aria-describedby="emailHelp">
-                                <div id="emailHelp" class="form-text">This name is visible to everyone
-                                </div>
+                                <FloatLabel class="w-100 mt-1">
+                                    <InputText class="w-100" v-model="categoryNameCreate" />
+                                    <label>Category Name</label>
+                                </FloatLabel>
+
+                                <FloatLabel class="w-100 mt-4">
+                                    <InputText class="w-100" v-model="categoryImageCreate" />
+                                    <label>Link for Image</label>
+                                </FloatLabel>
                             </div>
 
                         </div>
@@ -166,7 +181,10 @@ export default {
             requests: [],
             searchQuery: '',
             categoryClicked: '',
-            categoryName: ''
+            categoryName: '',
+            categoryLink: '',
+            categoryNameCreate: '',
+            categoryImageCreate: ''
         };
     },
     computed: {
@@ -187,17 +205,26 @@ export default {
         updateCategory() {
             axios.defaults.headers.common["Authorization"] =
                 "Bearer " + $cookies.get('jwtoken');
-            axios.post(apiLink + "/api/updateCategory", { id: this.categoryClicked[0], name: this.categoryName })
+            axios.post(apiLink + "/api/updateCategory", { id: this.categoryClicked[0], name: this.categoryName, imageLink: this.categoryLink })
                 .then(({ data }) => {
-                    this.closeAllModals()
-                    this.categoryName = ''
-                    this.loadData()
 
-                    toast("Category Updated", {
-                        "type": "success",
-                        "autoClose": 1000,
-                        "dangerouslyHTMLString": true
-                    })
+                    if (data == 'already exists') {
+                        toast("Category already exists, try other name", {
+                            "type": "error",
+                            "autoClose": 1000,
+                            "dangerouslyHTMLString": true
+                        })
+                    } else {
+                        toast("Category created", {
+                            "type": "success",
+                            "autoClose": 1000,
+                            "dangerouslyHTMLString": true
+                        })
+
+                        this.closeAllModals()
+                        this.categoryNameCreate = ''
+                        this.loadData()
+                    }
 
                 })
                 .catch(error => {
@@ -253,6 +280,36 @@ export default {
                         "autoClose": 1000,
                         "dangerouslyHTMLString": true
                     })
+
+                })
+                .catch(error => {
+                    console.log("error")
+                });
+        },
+        createCategory() {
+            console.log("teste")
+            axios.defaults.headers.common["Authorization"] =
+                "Bearer " + $cookies.get('jwtoken');
+            axios.post(apiLink + "/api/createCategory", { name: this.categoryNameCreate, imageLink: this.categoryImageCreate })
+                .then(({ data }) => {
+                    if (data == 'already exists') {
+                        toast("Category already exists, try other name", {
+                            "type": "error",
+                            "autoClose": 1000,
+                            "dangerouslyHTMLString": true
+                        })
+                    } else {
+                        toast("Category created", {
+                            "type": "success",
+                            "autoClose": 1000,
+                            "dangerouslyHTMLString": true
+                        })
+
+                        this.closeAllModals()
+                        this.categoryNameCreate = ''
+                        this.loadData()
+                    }
+
 
                 })
                 .catch(error => {

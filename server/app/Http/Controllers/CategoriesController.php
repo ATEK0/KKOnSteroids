@@ -23,7 +23,12 @@ class CategoriesController extends Controller
     public function create(Request $request) {
         $newCategory = new Categories();
 
+        if (Categories::where('name', '=', $request->name)->first()) {
+            return response()->json(["already exists"], 200);
+        }
+
         $newCategory->name = $request->name;
+        $newCategory->imageLink = $request->imageLink;
 
         $newCategory->save();
 
@@ -33,7 +38,12 @@ class CategoriesController extends Controller
     public function update(Request $request) {
         $category = Categories::find($request->id);
 
+        if (Categories::where('name', '=', $request->name)->first()) {
+            return response()->json(["already exists"], 200);
+        }
+
         $category->name = $request->name;
+        $category->imageLink = $request->imageLink;
 
         $category->save();
 
