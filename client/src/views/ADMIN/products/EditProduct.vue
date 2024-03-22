@@ -1,13 +1,7 @@
 <script setup>
-import { userLogged } from '@/stores/loggedUserInfo.js';
 
 import SideNavBar from '@/components/NavAdmin.vue'
 
-let userInfo = userLogged()
-
-if (!userInfo.role == 'Admin') {
-    window.location.href = '/'
-}
 </script>
 <template>
 
@@ -148,15 +142,10 @@ export default {
 
                     this.categories = data
 
-                })
-                .catch(error => {
-
                 });
 
             axios.post(apiLink + "/api/getProduct", { slug: this.productSlug })
                 .then(({ data }) => {
-
-                    console.log(data)
 
                     this.productID = data.id
                     this.name = data.name
@@ -168,16 +157,11 @@ export default {
                     this.htmlElements = data.HTMLelements,
                     this.imageLink = data.productImage
 
-                })
-                .catch(error => {
-
                 });
         },
         testLink(index) {
             let link = document.getElementById("link-" + index).value
             let element = document.getElementById("html-" + index).value
-
-            console.log(link, element)
 
             axios.defaults.headers.common["Authorization"] =
                 "Bearer " + $cookies.get('jwtoken');
@@ -208,11 +192,7 @@ export default {
                         })
                     }
 
-                })
-                .catch(error => {
-
                 });
-
 
         },
         addLinkRow() {
@@ -254,11 +234,7 @@ export default {
                             1200)
 
 
-                    })
-                    .catch(error => {
                     });
-
-
 
             } else {
                 toast("You need to test & verify all the links", {

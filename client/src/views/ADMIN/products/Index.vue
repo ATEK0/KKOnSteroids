@@ -1,5 +1,4 @@
 <script setup>
-import { userLogged } from '@/stores/loggedUserInfo.js';
 
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
@@ -8,11 +7,6 @@ import InputText from 'primevue/inputtext';
 import FloatLabel from 'primevue/floatlabel';
 import SideNavBar from '@/components/NavAdmin.vue'
 
-let userInfo = userLogged()
-
-if (!userInfo.role) {
-    window.location.href = '/'
-}
 </script>
 <template>
 
@@ -188,9 +182,6 @@ export default {
                         "dangerouslyHTMLString": true
                     })
 
-                })
-                .catch(error => {
-                    console.log("error")
                 });
         },
         trashIconClicked(category) {
@@ -225,9 +216,6 @@ export default {
                 .then(({ data }) => {
                     console.log(data)
                     this.requests = data
-                })
-                .catch(error => {
-                    console.log("error")
                 });
         },
         deleteProduct(category) {
@@ -245,13 +233,9 @@ export default {
                         "dangerouslyHTMLString": true
                     })
 
-                })
-                .catch(error => {
-                    console.log("error")
                 });
         },
         cellClicked(rowData) {
-            console.log(rowData.slug)
             window.location.href = '/product/' + rowData.slug
         }
     }

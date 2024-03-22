@@ -1,12 +1,7 @@
 <script setup>
 
-import { userLogged } from '@/stores/loggedUserInfo.js';
 import NavBar from '@/components/Navbar.vue'
 import FooterBar from '@/components/Footer.vue'
-import testImage from '/assets/image.png'
-
-
-let userInfo = userLogged()
 
 </script>
 
@@ -65,12 +60,8 @@ export default {
                 "Bearer " + $cookies.get('jwtoken');
             axios.post(apiLink + "/api/getProducts")
                 .then(({ data }) => {
-                    console.log(data)
 
                     this.products = data
-
-                })
-                .catch(error => {
 
                 });
         },

@@ -1,13 +1,8 @@
 <script setup>
-import { userLogged } from '@/stores/loggedUserInfo.js';
+
 import SideBarNav from '@/components/NavAdmin.vue'
 import Badge from 'primevue/badge';
 
-let userInfo = userLogged()
-
-if (!userInfo.role == 'Admin') {
-    window.location.href = '/'
-}
 </script>
 <template>
 
@@ -150,9 +145,6 @@ export default {
             categories: []
         };
     },
-    computed: {
-
-    },
     mounted() {
         this.loadPageData()
     },
@@ -175,10 +167,6 @@ export default {
                         this.isDisabled = true
                     }
 
-                })
-                .catch(error => {
-
-
                 });
 
             axios.post(apiLink + "/api/getCategories")
@@ -186,16 +174,12 @@ export default {
 
                     this.categories = data
 
-                })
-                .catch(error => {
-
                 });
         },
         testLink(index) {
             let link = document.getElementById("link-" + index).value
             let element = document.getElementById("html-" + index).value
 
-            console.log(link, element)
 
             axios.defaults.headers.common["Authorization"] =
                 "Bearer " + $cookies.get('jwtoken');
@@ -225,9 +209,6 @@ export default {
                             "dangerouslyHTMLString": true
                         })
                     }
-
-                })
-                .catch(error => {
 
                 });
 
@@ -272,11 +253,7 @@ export default {
                             1200)
 
 
-                    })
-                    .catch(error => {
                     });
-
-
 
             } else {
                 toast("You need to test & verify all the links", {
@@ -295,8 +272,6 @@ export default {
 
                     this.loadPageData()
 
-                })
-                .catch(error => {
                 });
 
         },
@@ -309,8 +284,6 @@ export default {
 
                     this.loadPageData()
 
-                })
-                .catch(error => {
                 });
         }
     }

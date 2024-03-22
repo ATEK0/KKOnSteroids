@@ -1,6 +1,5 @@
 <script setup>
 import { userLogged } from '@/stores/loggedUserInfo.js';
-import NavBar from '@/components/Navbar.vue'
 
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
@@ -9,11 +8,7 @@ import InputText from 'primevue/inputtext';
 import FloatLabel from 'primevue/floatlabel';
 import SideNavBar from '@/components/NavAdmin.vue'
 
-let userInfo = userLogged()
 
-if (!userInfo.role) {
-    window.location.href = '/'
-}
 </script>
 <template>
 

@@ -1,8 +1,3 @@
-<script setup>
-import { userLogged } from '@/stores/loggedUserInfo.js';
-
-let userInfo = userLogged()
-</script>
 
 <template>
     <div class="userinfo" id="userinfo">
@@ -20,7 +15,6 @@ let userInfo = userLogged()
 
     </div>
 </template>
-
 
 <script>
 import axios from 'axios';
@@ -40,8 +34,6 @@ export default {
     },
     methods: {
         saveData() {
-            // const userStore = userLogged()
-            // this.pinia_info = userStore.name;
 
             axios.defaults.headers.common["Authorization"] =
                 "Bearer " + $cookies.get('jwtoken');
@@ -51,9 +43,6 @@ export default {
                     console.log(data)
 
                     this.username = data
-
-                })
-                .catch(error => {
 
                 });
         }

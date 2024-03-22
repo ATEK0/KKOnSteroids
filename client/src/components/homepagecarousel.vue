@@ -1,8 +1,4 @@
-<script setup>
-import { userLogged } from '@/stores/loggedUserInfo.js';
 
-let userInfo = userLogged()
-</script>
 
 <template>
     <main>

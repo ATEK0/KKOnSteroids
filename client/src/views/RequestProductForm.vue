@@ -1,14 +1,6 @@
 <script setup>
-import { userLogged } from '@/stores/loggedUserInfo.js';
-import NavBar from '@/components/Navbar.vue'
-import { useRouter } from 'vue-router';
-const router = useRouter()
 
-let userInfo = userLogged()
-console.log(userInfo.name)
-if (!userInfo.name) {
-    window.location.href = '/'
-}
+import NavBar from '@/components/Navbar.vue'
 
 </script>
 
@@ -65,7 +57,6 @@ if (!userInfo.name) {
 import axios from 'axios';
 import { apiLink } from '../config.js';
 import { toast } from "vue3-toastify";
-import MultiSelect from 'primevue/multiselect';
 
 export default {
     name: 'UserInfo',
@@ -92,37 +83,16 @@ export default {
 
                 this.categoryList = data
 
-            })
-            .catch(error => {
-
             });
 
     },
     methods: {
-        checkIfLogged() {
-
-            axios.defaults.headers.common["Authorization"] =
-                "Bearer " + $cookies.get('jwtoken');
-            axios.post(apiLink + "/api/check-login")
-                .then(({ data }) => {
-                    console.log(data)
-                    if (data) {
-                        console.log("Is logged")
-                    } else {
-                        window.location.href = '/login'
-                    }
-                })
-                .catch(error => {
-                });
-        },
         addLinkRow() {
             this.linkCounter = this.linkCounter + 1;
-            console.log("link router " + this.linkCounter)
         },
         removeLinkRow(index) {
             const element = document.getElementById(`link-${index}`);
             element.remove();
-            // this.linkCounter -= 1;
         },
         validateFormData() {
             const result = Array.from(document.querySelectorAll("[id^='linkinp-']"), ({ value }) => value);
@@ -146,7 +116,6 @@ export default {
                 "Bearer " + $cookies.get('jwtoken');
             axios.post(apiLink + "/api/requestProduct", this.product)
                 .then(({ data }) => {
-                    console.log(data)
 
                     toast("Request created", {
                         "theme": "light",

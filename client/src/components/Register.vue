@@ -1,8 +1,6 @@
 <script setup>
-import { userLogged } from '@/stores/loggedUserInfo.js';
 import NavBar from '@/components/Navbar.vue'
 
-let userInfo = userLogged()
 </script>
 <template>
     <NavBar />
@@ -57,7 +55,6 @@ export default {
     },
     beforeMount() {
         if ($cookies.get("jwtoken")) {
-            // this.$router.push('/account')
             window.location.href = '/account'
         }
     },
@@ -74,7 +71,6 @@ export default {
                     })
 
                     setTimeout(() => {
-                        // this.$router.push('/login')
                         window.location.href = '/login'
                     }, 3000)
 

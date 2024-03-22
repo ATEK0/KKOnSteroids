@@ -1,8 +1,5 @@
 <script setup>
-import { userLogged } from '@/stores/loggedUserInfo.js';
 import NavBar from '@/components/Navbar.vue'
-
-let userInfo = userLogged()
 </script>
 <template>
     <NavBar />
@@ -122,9 +119,6 @@ export default {
                     } else {
                         this.$router.push('/')
                     }
-
-                })
-                .catch(error => {
 
                 });
         }

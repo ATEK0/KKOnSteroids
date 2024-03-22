@@ -219,7 +219,6 @@ export default {
                     this.requests = data
                 })
                 .catch(error => {
-                    console.log("error")
                 });
         }
     }

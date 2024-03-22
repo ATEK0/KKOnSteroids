@@ -21,10 +21,10 @@ class AuthenticateMiddleware
         try {
 +            $user = JWTAuth::parseToken()->authenticate();
 
-+            return $next($request);
+// +            return $next($request);
 
         } catch (Exception $e) {
-+            return response()->json(['error' => 'Unauthorized'], 401);
+// +            return response()->json(['error' => 'Unauthorized'], 401);
         }
     }
 }

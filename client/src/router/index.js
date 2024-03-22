@@ -1,4 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { userLogged } from '@/stores/loggedUserInfo.js';
+
+
 import Homepage from '../views/Homepage.vue'
 
 import Register from '../components/Register.vue'
@@ -26,6 +29,10 @@ import CreateNewProduct from '@/views/ADMIN/products/CreateProduct.vue'
 import EditProduct from '@/views/ADMIN/products/EditProduct.vue'
 
 
+
+import NotFound from '@/components/NotFound.vue'
+
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -37,12 +44,18 @@ const router = createRouter({
     {
       path: '/register',
       name: 'register',
-      component: Register
+      component: Register,
+      meta: {
+        requiresNoAuth: true,
+      }
     },
     {
       path: '/login',
       name: 'login',
-      component: Login
+      component: Login,
+      meta: {
+        requiresNoAuth: true,
+      }
     },
     {
       path: '/userinfo',
@@ -52,17 +65,27 @@ const router = createRouter({
     {
       path: '/logout',
       name: 'logout',
-      component: Logout
+      component: Logout,
+      meta: {
+        requiresAuth: true,
+      }
     },
     {
       path: '/account',
       name: 'account',
-      component: Account
+      component: Account,
+      meta: {
+        requiresAuth: true,
+      }
     },
     {
       path: '/admin',
       name: 'adminDashboard',
-      component: AdminDashboard
+      component: AdminDashboard,
+      meta: {
+        requiresAuth: true,
+        requiresAdmin: true
+      }
     },
     {
       path: '/product/:slug',
@@ -78,6 +101,9 @@ const router = createRouter({
       path: '/product/request',
       name: 'requestProduct',
       component: RequestProductForm,
+      meta: {
+        requiresAuth: true,
+      }
     },
     {
       path: '/category/:category',
@@ -87,39 +113,138 @@ const router = createRouter({
     {
       path: '/admin/categories',
       name: 'categoriesDashboard',
-      component: CategoriesDashboard
+      component: CategoriesDashboard,
+      meta: {
+        requiresAuth: true,
+        requiresAdmin: true
+      }
     },
     {
       path: '/admin/requests',
       name: 'ProductRequestDashboard',
-      component: ProductRequestDashboard
+      component: ProductRequestDashboard,
+      meta: {
+        requiresAuth: true,
+        requiresAdmin: true
+      }
     },
     {
       path: '/admin/request/:requestID',
       name: 'ProductRequestSingular',
-      component: ProductRequestSingular
+      component: ProductRequestSingular,
+      meta: {
+        requiresAuth: true,
+        requiresAdmin: true
+      }
     },
     {
       path: '/admin/users',
       name: 'usersList',
-      component: UsersAdminDashboard
+      component: UsersAdminDashboard,
+      meta: {
+        requiresAuth: true,
+        requiresAdmin: true
+      }
     },
     {
       path: '/admin/products',
       name: 'productsList',
-      component: ProductsAdminDashboard
+      component: ProductsAdminDashboard,
+      meta: {
+        requiresAuth: true,
+        requiresAdmin: true
+      }
     },
     {
       path: '/admin/products/new',
       name: 'createNewProduct',
-      component: CreateNewProduct
+      component: CreateNewProduct,
+      meta: {
+        requiresAuth: true,
+        requiresAdmin: true
+      }
     },
     {
       path: '/admin/products/edit/:slug',
       name: 'editProduct',
-      component: EditProduct
+      component: EditProduct,
+      meta: {
+        requiresAuth: true,
+        requiresAdmin: true
+      }
     },
+    {
+      path: '/not-found',
+      name: 'NotFound',
+      component: NotFound
+    }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  // Check if the route requires no authentication
+  if (to.matched.some(record => record.meta.requiresNoAuth)) {
+    if (isAuthenticated()) {
+      next({
+        path: '/',
+      });
+    }
+  }
+
+  // Check if the route requires authentication
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    // Check if the user is authenticated
+    if (!isAuthenticated()) {
+      // If not authenticated, redirect to login page
+      next({
+        path: '/login',
+        query: { redirect: to.fullPath }
+      });
+    } else {
+      // Check if the route requires admin privileges
+      if (to.matched.some(record => record.meta.requiresAdmin)) {
+        // Check if the user is an admin
+        if (!isAdmin()) {
+          // If not an admin, redirect to unauthorized page or any other logic
+          next({
+            path: '/not-found',
+          });
+        } else {
+          // If authenticated and admin, proceed to the route
+          next();
+        }
+      } else {
+        // If authenticated and not admin-required route, proceed to the route
+        next();
+      }
+    }
+  } else {
+    // If the route doesn't require authentication, proceed as usual
+    next();
+  }
+});
+
+function isAuthenticated() {
+
+  if (!$cookies.get("jwtoken")) {
+    return false;
+  }
+
+  return true;
+  
+}
+
+function isAdmin() {
+
+  let userInfo = userLogged()
+
+  if (userInfo.role == 'Admin') {
+    return true;
+  }
+
+  return false;
+
+}
+
 
 export default router

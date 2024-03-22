@@ -33,16 +33,6 @@ export default {
     return {
       user: ''
     };
-  },
-  beforeMount() {
-    if (!$cookies.get("jwtoken")) {
-      this.$router.push('/login')
-      // window.location.href = '/login'
-
-    }
-  },
-  methods: {
-
   }
 };
 </script>

@@ -1,12 +1,9 @@
 <script setup>
-import { userLogged } from '@/stores/loggedUserInfo.js';
+
 import NavBar from '@/components/Navbar.vue'
-import testImage from '/assets/image.png'
 import FooterBar from '@/components/Footer.vue'
 
 import HomePageCarousel from '@/components/homepagecarousel.vue'
-
-let userInfo = userLogged()
 
 </script>
 
@@ -128,7 +125,7 @@ export default {
 
     axios.post(apiLink + "/api/getHotDeal")
       .then(({ data }) => {
-        console.log(data)
+
         this.hotDeal = data
 
       });
@@ -153,7 +150,7 @@ export default {
   },
   methods: {
     scrollproductCarroussel(event) {
-      console.log(event.target.id)
+
       let container = document.getElementById(`container-most-view`)
       container.scrollLeft = container.scrollLeft + 50
 

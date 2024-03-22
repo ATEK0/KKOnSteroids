@@ -1,13 +1,7 @@
 <script setup>
-import { userLogged } from '@/stores/loggedUserInfo.js';
 
 import NavAdmin from '@/components/NavAdmin.vue'
 
-let userInfo = userLogged()
-
-if (!userInfo.role) {
-    window.location.href = '/'
-}
 </script>
 
 <style>
@@ -145,13 +139,9 @@ export default {
 
                 } else {
 
-                    this.$router.push('/')
-                    // window.location.href = '/'
+                    window.location.href = '/'
 
                 }
-
-            })
-            .catch(error => {
 
             });
     },

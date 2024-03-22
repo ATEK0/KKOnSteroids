@@ -1,12 +1,8 @@
 <script setup>
 
-import { userLogged } from '@/stores/loggedUserInfo.js';
 import NavBar from '@/components/Navbar.vue'
 import NotFound from '@/components/NotFound.vue'
-import testImage from '/assets/image.png'
 import FooterBar from '@/components/Footer.vue'
-
-let userInfo = userLogged()
 
 </script>
 

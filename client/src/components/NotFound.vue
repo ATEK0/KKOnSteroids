@@ -11,7 +11,7 @@ import whatULooking from '/assets/not found image.png'
         <p>The page you are looking for does not exist</p>
         <p>Maybe you wrote something wrong, try to search for it again</p>
         <img :src="whatULooking" alt="" class="img-fluid">
-        <button class="btn btn-primary" @click="this.$router.push('/')">Back to Home</button>
+        <a href="/"><button class="btn btn-primary">Back to Home</button></a>
     </div>
 
 </template>
@@ -20,9 +20,5 @@ import whatULooking from '/assets/not found image.png'
 
 export default {
     name: 'notFound',
-    data() {
-        return {
-        };
-    }
 };
 </script>

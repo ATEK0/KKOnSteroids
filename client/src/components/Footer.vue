@@ -1,9 +1,4 @@
-<script setup>
-import { userLogged } from '@/stores/loggedUserInfo.js';
-import NavBar from '@/components/Navbar.vue'
 
-let userInfo = userLogged()
-</script>
 <template>
     <footer class="w-100 p-0 m-0 text-center p-3" style="background-color: white;">
         <div class="row">
@@ -29,10 +24,7 @@ let userInfo = userLogged()
 <script>
 
 export default {
-    name: 'footer',
-    data() {
-        return {
-        };
-    }
+    name: 'footer'
 };
+
 </script>

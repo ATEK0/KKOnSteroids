@@ -21,6 +21,8 @@ class AuthController extends Controller
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
+
+
         return response()->json(['token' => $token], 200);
     }
 
@@ -89,9 +91,15 @@ class AuthController extends Controller
 
         $user = User::where('email', $JWTdecoded->email)->first();
 
+        $user->last_beat = date('d-m-y h:i:s');
+
+        $user->save();
+
         $userRoleLabel = User_Roles::where('id', $user->role)->first();
 
         $user->role = $userRoleLabel->role;
+
+
 
         return $user;
     }

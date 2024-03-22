@@ -1,10 +1,7 @@
 <script setup>
 
-import { userLogged } from '@/stores/loggedUserInfo.js';
 import NavBar from '@/components/Navbar.vue'
 import FooterBar from '@/components/Footer.vue'
-
-let userInfo = userLogged()
 
 </script>
 
@@ -62,12 +59,8 @@ export default {
                 "Bearer " + $cookies.get('jwtoken');
             axios.post(apiLink + "/api/getProductsByCategory", {category: this.$route.params.category})
                 .then(({ data }) => {
-                    console.log(data)
 
                     this.products = data
-
-                })
-                .catch(error => {
 
                 });
         },
