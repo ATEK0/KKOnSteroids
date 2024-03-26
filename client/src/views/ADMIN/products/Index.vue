@@ -21,7 +21,7 @@ import SideNavBar from '@/components/NavAdmin.vue'
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="/admin/categories">Products</a></li>
+                                <li class="breadcrumb-item"><a href="/admin/products">Products</a></li>
                                 <li class="breadcrumb-item active">Manage</li>
                             </ol>
                         </div>

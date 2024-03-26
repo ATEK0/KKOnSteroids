@@ -1,5 +1,4 @@
 <script setup>
-import { userLogged } from '@/stores/loggedUserInfo.js';
 
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
@@ -7,7 +6,6 @@ import Column from 'primevue/column';
 import InputText from 'primevue/inputtext';
 import FloatLabel from 'primevue/floatlabel';
 import SideNavBar from '@/components/NavAdmin.vue'
-
 
 </script>
 <template>

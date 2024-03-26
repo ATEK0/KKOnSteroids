@@ -5,6 +5,10 @@
     --platform-black: #201E1F;
 }
 
+* {
+    -ms-overflow-style: none;scrollbar-width: none;
+}
+
 a,
 a:hover {
     text-decoration: none;
@@ -73,7 +77,7 @@ body {
     padding: 5px;
     padding-top: 10px;
     padding-bottom: 10px;
-    padding-left: 15px;
+    padding-left: 35px;
     font-weight: normal;
     font-size: 14px;
     width: 100% !important;
@@ -108,9 +112,8 @@ body {
 .search-icon-nav {
     width: 20px;
     position: absolute;
-    right: 0;
-    margin-right: 25px;
-    top: 34%;
+    margin-left: 10px;
+    top: 32%;
     fill: var(--main-yellow);
     cursor: pointer;
 
@@ -119,8 +122,7 @@ body {
 .erase-icon-nav {
     width: 12px;
     position: absolute;
-    right: 30px;
-    margin-right: 25px;
+    margin-left: 12px;
     top: 36%;
     fill: var(--main-yellow);
     border-radius: 10px;
@@ -131,26 +133,20 @@ body {
     .search-icon-nav {
         width: 20px;
         position: absolute;
-        right: 0;
-        margin-right: 25px;
-        top: 50%;
-        transform: translateY(60%);
+        margin-left: 10px;
+        top: 63%;
         fill: var(--main-yellow);
         cursor: pointer;
-
     }
 
     .erase-icon-nav {
         width: 12px;
         position: absolute;
-        right: 30px;
-        margin-right: 25px;
-        top: 50%;
-        transform: translateY(93%);
+        margin-left: 12px;
+        top: 65%;
         fill: var(--main-yellow);
         border-radius: 10px;
         cursor: pointer;
-
     }
 }
 
@@ -210,4 +206,35 @@ body {
     font-size: 40px;
     font-weight: bold;
     color: var(--main-yellow);
+}
+
+.product_actions:hover {
+    color: var(--main-yellow);
+    fill: var(--main-yellow);
+    cursor: pointer;
+}
+
+.create-wishlist {
+    background-color: var(--main-yellow);
+    color: white;
+    fill: white;
+    border-radius: 10px;
+    transition: .2s all;
+}
+
+.create-wishlist:hover {
+    transform: scale(1.02);
+    cursor: pointer;
+}
+
+.wishlist {
+    background-color: white;
+    color: var(--main-yellow);
+    border-radius: 10px;
+    transition: .2s all;
+}
+
+.wishlist:hover {
+    transform: scale(1.02);
+    cursor: pointer;
 }

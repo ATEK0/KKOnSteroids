@@ -30,7 +30,7 @@ if (!userInfo.role) {
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="/admin/categories">Users</a></li>
+                                <li class="breadcrumb-item"><a href="/admin/users">Users</a></li>
                                 <li class="breadcrumb-item active">Manage</li>
                             </ol>
                         </div>

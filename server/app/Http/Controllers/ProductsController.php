@@ -11,13 +11,11 @@ use App\Models\ProductLinks;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Http;
 
 class ProductsController extends Controller
 {
     public function getCount(Request $request)
     {
-
         $auth = new AuthController();
 
         if ($auth->checkIfAdmin($request)) {
@@ -29,23 +27,12 @@ class ProductsController extends Controller
 
     public function getProducts(Request $request)
     {
-        $auth = new AuthController();
-        if ($auth->checkIfAdmin($request)) {
-
-            return cache()->remember('all_products', 15, function () {
-                return Products::all();
-            });
-        } else {
-            return response()->json("Not authorized", 200);
-        }
+        return Products::inRandomOrder()->get();
     }
-
 
     public function store(Request $request)
     {
         $auth = new AuthController();
-
-
 
         if ($auth->checkIfAdmin($request)) {
             $user = $auth->me($request);
@@ -54,48 +41,73 @@ class ProductsController extends Controller
 
             $product = new Products();
 
-
-            $product->name = $product_info['name'];
-            $product->brand = $product_info['brand'];
-            $product->size = $product_info['size'];
-            $product->requestID = $product_info['request_id'];
+            $product->name = $product_info["name"];
+            $product->brand = $product_info["brand"];
+            $product->size = $product_info["size"];
+            $product->requestID = $product_info["request_id"];
             $product->created_by = $user->id;
-            $product->description = $product_info['description'];
-            $product->slug = '';
-            $product->productImage = $product_info['productImage'];
-            $product->lowerprice = '9999999999999';
+            $product->description = $product_info["description"];
+            $product->slug = "";
+            $product->productImage = $product_info["productImage"];
+            $product->lowerprice = "9999999999999";
             $product->save();
-            $product->slug = preg_replace('/\s+/', '-', $product_info['name']) . '-' . $product->id;
+            $product->slug =
+                preg_replace("/\s+/", "-", $product_info["name"]) .
+                "-" .
+                $product->id;
             $product->save();
 
-            for ($i = 0; $i < count($product_info['category']); $i++) {
-
+            for ($i = 0; $i < count($product_info["category"]); $i++) {
                 $product_categories = new ProductCategories();
 
-                $product_categories->category_id = $product_info['category'][$i]['id'];
+                $product_categories->category_id =
+                    $product_info["category"][$i]["id"];
                 $product_categories->product_id = $product->id;
                 $product_categories->save();
             }
 
-
-            for ($i = 0; $i < count($product_info['links']); $i++) {
-
+            for ($i = 0; $i < count($product_info["links"]); $i++) {
                 $product_links = new ProductLinks();
                 $scraper = new WebScrapperService();
 
                 $product_links->product_id = $product->id;
-                $product_links->link = $product_info['links'][$i]['link'];
-                $product_links->HTML_price_element = $product_info['htmlElements'][$i];
+                $product_links->link = $product_info["links"][$i]["link"];
+                $product_links->HTML_price_element =
+                    $product_info["htmlElements"][$i];
 
-                $product_links->hostname = parse_url($product_info['links'][$i]['link'], PHP_URL_HOST);
-                $product_links->hostname = str_replace(array('www.', '.pt', '.com', '.es', '.uk', '.com.pt', '.com.br', '.br', '.fr'), '', $product_links->hostname);
+                $product_links->hostname = parse_url(
+                    $product_info["links"][$i]["link"],
+                    PHP_URL_HOST
+                );
+                $product_links->hostname = str_replace(
+                    [
+                        "www.",
+                        ".pt",
+                        ".com",
+                        ".es",
+                        ".uk",
+                        ".com.pt",
+                        ".com.br",
+                        ".br",
+                        ".fr",
+                    ],
+                    "",
+                    $product_links->hostname
+                );
 
-                $productPrice = $scraper->scrapePrice($product_info['links'][$i]['link'], $product_info['htmlElements'][$i]);
+                $productPrice = $scraper->scrapePrice(
+                    $product_info["links"][$i]["link"],
+                    $product_info["htmlElements"][$i]
+                );
 
-                $product_links->product_price = number_format((float)(str_replace(array('$', '€', '£'), '', $productPrice)), 2, '.', '');
+                $product_links->product_price = number_format(
+                    (float) str_replace(['$', "€", "£"], "", $productPrice),
+                    2,
+                    ".",
+                    ""
+                );
 
                 if ($product_links->product_price < $product->lowerprice) {
-
                     $product->lowerprice = $product_links->product_price;
                     $product->save();
                 }
@@ -103,13 +115,14 @@ class ProductsController extends Controller
                 $product_links->save();
             }
 
-
-            $productRequest = ProductRequests::where('id', $product->requestID)->first();
+            $productRequest = ProductRequests::where(
+                "id",
+                $product->requestID
+            )->first();
             if ($productRequest) {
-                $productRequest->status = '2';
+                $productRequest->status = "2";
                 $productRequest->save();
             }
-
 
             return response()->json("Created", 200);
         } else {
@@ -119,27 +132,33 @@ class ProductsController extends Controller
 
     public function show(Request $request)
     {
-        $product = Products::where('slug', $request->slug)->first();
+        $product = Products::where("slug", $request->slug)->first();
 
         if (!$product) {
-            return response()->json('', 200);
+            return response()->json("", 200);
         }
         $product->clicks = $product->clicks + 1;
         $product->save();
 
-        $categories = ProductCategories::where('product_id', $product->id)
-            ->join('categories', 'product_categories.category_id', '=', 'categories.id')
-            ->select('categories.*')
+        $categories = ProductCategories::where("product_id", $product->id)
+            ->join(
+                "categories",
+                "product_categories.category_id",
+                "=",
+                "categories.id"
+            )
+            ->select("categories.*")
             ->get();
-
 
         $product->categories = $categories;
 
-        $links = ProductLinks::where('product_id', $product->id)->get();
+        $links = ProductLinks::where("product_id", $product->id)->get();
 
         $product->links = $links;
 
-        $elements = ProductLinks::where('product_id', $product->id)->get('HTML_price_element');
+        $elements = ProductLinks::where("product_id", $product->id)->get(
+            "HTML_price_element"
+        );
 
         $product->HTMLelements = $elements;
 
@@ -148,21 +167,20 @@ class ProductsController extends Controller
 
     public function getMarkets(Request $request)
     {
-        return ProductLinks::where('product_id', $request->id)->get();
+        return ProductLinks::where("product_id", $request->id)->get();
     }
 
     public function delete(Request $request)
     {
         $auth = new AuthController();
         if ($auth->checkIfAdmin($request)) {
-
             $product = Products::findOrFail($request->id);
-            ProductLinks::where('product_id', $product->id)->delete();
-            ProductCategories::where('product_id', $product->id)->delete();
+            ProductLinks::where("product_id", $product->id)->delete();
+            ProductCategories::where("product_id", $product->id)->delete();
 
             $product->delete();
 
-            return response()->json('deleted', 200);
+            return response()->json("deleted", 200);
         } else {
             return response()->json("Not authorized", 401);
         }
@@ -179,54 +197,78 @@ class ProductsController extends Controller
 
             $product = Products::findOrFail($product_info["id"]);
 
-
-            $product->name = $product_info['name'];
-            $product->brand = $product_info['brand'];
-            $product->size = $product_info['size'];
-            $product->requestID = $product_info['request_id'];
+            $product->name = $product_info["name"];
+            $product->brand = $product_info["brand"];
+            $product->size = $product_info["size"];
+            $product->requestID = $product_info["request_id"];
             $product->created_by = $user->id;
-            $product->description = $product_info['description'];
-            $product->slug = '';
-            $product->lowerprice = '9999999999999';
+            $product->description = $product_info["description"];
+            $product->slug = "";
+            $product->lowerprice = "9999999999999";
             $product->save();
-            $product->slug = preg_replace('/\s+/', '-', $product_info['name']) . '-' . $product->id;
+            $product->slug =
+                preg_replace("/\s+/", "-", $product_info["name"]) .
+                "-" .
+                $product->id;
             $product->save();
-
 
             // delete all categories linked to this product
-            ProductCategories::where('product_id', $product->id)->delete();
+            ProductCategories::where("product_id", $product->id)->delete();
 
-            for ($i = 0; $i < count($product_info['category']); $i++) {
-
+            for ($i = 0; $i < count($product_info["category"]); $i++) {
                 $product_categories = new ProductCategories();
 
-                $product_categories->category_id = $product_info['category'][$i]['id'];
+                $product_categories->category_id =
+                    $product_info["category"][$i]["id"];
                 $product_categories->product_id = $product->id;
                 $product_categories->save();
             }
 
-
             // delete all links linked to this product
-            ProductLinks::where('product_id', $product->id)->delete();
+            ProductLinks::where("product_id", $product->id)->delete();
 
-            for ($i = 0; $i < count($product_info['links']); $i++) {
-
+            for ($i = 0; $i < count($product_info["links"]); $i++) {
                 $product_links = new ProductLinks();
                 $scraper = new WebScrapperService();
 
                 $product_links->product_id = $product->id;
-                $product_links->link = $product_info['links'][$i]['link'];
-                $product_links->HTML_price_element = $product_info['htmlElements'][$i]['HTML_price_element'];
+                $product_links->link = $product_info["links"][$i]["link"];
+                $product_links->HTML_price_element =
+                    $product_info["htmlElements"][$i]["HTML_price_element"];
 
-                $product_links->hostname = parse_url($product_info['links'][$i]['link'], PHP_URL_HOST);
-                $product_links->hostname = str_replace(array('www.', '.pt', '.com', '.es', '.uk', '.com.pt', '.com.br', '.br', '.fr'), '', $product_links->hostname);
+                $product_links->hostname = parse_url(
+                    $product_info["links"][$i]["link"],
+                    PHP_URL_HOST
+                );
+                $product_links->hostname = str_replace(
+                    [
+                        "www.",
+                        ".pt",
+                        ".com",
+                        ".es",
+                        ".uk",
+                        ".com.pt",
+                        ".com.br",
+                        ".br",
+                        ".fr",
+                    ],
+                    "",
+                    $product_links->hostname
+                );
 
-                $productPrice = $scraper->scrapePrice($product_info['links'][$i]['link'], $product_info['htmlElements'][$i]['HTML_price_element']);
+                $productPrice = $scraper->scrapePrice(
+                    $product_info["links"][$i]["link"],
+                    $product_info["htmlElements"][$i]["HTML_price_element"]
+                );
 
-                $product_links->product_price = number_format((float)(str_replace(array('$', '€', '£'), '', $productPrice)), 2, '.', '');
+                $product_links->product_price = number_format(
+                    (float) str_replace(['$', "€", "£"], "", $productPrice),
+                    2,
+                    ".",
+                    ""
+                );
 
                 if ($product_links->product_price < $product->lowerprice) {
-
                     $product->lowerprice = $product_links->product_price;
                     $product->save();
                 }
@@ -234,13 +276,14 @@ class ProductsController extends Controller
                 $product_links->save();
             }
 
-
-            $productRequest = ProductRequests::where('id', $product->requestID)->first();
+            $productRequest = ProductRequests::where(
+                "id",
+                $product->requestID
+            )->first();
             if ($productRequest) {
-                $productRequest->status = '2';
+                $productRequest->status = "2";
                 $productRequest->save();
             }
-
 
             return response()->json("Created", 200);
         } else {
@@ -250,29 +293,32 @@ class ProductsController extends Controller
 
     public function getMostView()
     {
-        return Products::orderBy('clicks', 'desc')->take(10)->get();
+        return Products::orderBy("clicks", "desc")->take(10)->get();
     }
 
     public function getHotDeal()
     {
-        return Products::where('isTodayStar', '=', 1)->first();
+        return Products::where("isTodayStar", "=", 1)->first();
     }
 
     public function getProductsByCategory(Request $request)
     {
         $categoryName = $request->category;
 
-        $category = Categories::where('name', $categoryName)->first();
+        $category = Categories::where("name", $categoryName)->first();
 
         if (!$category) {
-            return response()->json(['error' => ''], 404);
+            return response()->json(["error" => ""], 404);
         }
 
-        $categoryProducts = ProductCategories::where('category_id', $category->id)->get();
+        $categoryProducts = ProductCategories::where(
+            "category_id",
+            $category->id
+        )->get();
 
-        $productIds = $categoryProducts->pluck('product_id')->toArray();
+        $productIds = $categoryProducts->pluck("product_id")->toArray();
 
-        $products = Products::whereIn('id', $productIds)->get();
+        $products = Products::whereIn("id", $productIds)->get();
 
         return response()->json($products, 200);
     }
@@ -283,12 +329,34 @@ class ProductsController extends Controller
 
         $flattenedCategoryIds = Arr::flatten($categoryIds);
 
-        $categoryProducts = ProductCategories::whereIn('category_id', $flattenedCategoryIds)->get();
+        $categoryProducts = ProductCategories::whereIn(
+            "category_id",
+            $flattenedCategoryIds
+        )->get();
 
-        $productIds = $categoryProducts->pluck('product_id')->toArray();
+        $productIds = $categoryProducts->pluck("product_id")->toArray();
 
-        $products = Products::whereIn('id', $productIds)->take(8)->get();
+        $products = Products::whereIn("id", $productIds)->take(8)->get();
 
         return response()->json($products, 200);
+    }
+
+    public function getProductsInSearchBar(Request $request)
+    {
+        $searchQuery = $request->searchQuery;
+
+        $products = Products::where("name", "like", "%" . $searchQuery . "%")
+            ->take(4)
+            ->get();
+
+        return $products;
+    }
+
+    public function getProductsFromSearch(Request $request) {
+        $searchQuery = $request->searchQuery;
+
+        $products = Products::where("name", "like", "%" . $searchQuery . "%")->get();
+
+        return $products;
     }
 }

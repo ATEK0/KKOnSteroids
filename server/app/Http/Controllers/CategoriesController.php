@@ -21,6 +21,7 @@ class CategoriesController extends Controller
     }
 
     public function create(Request $request) {
+        
         $newCategory = new Categories();
 
         if (Categories::where('name', '=', $request->name)->first()) {

@@ -38,9 +38,6 @@ class ProductRequestsController extends Controller
 
     public function store(Request $request)
     {
-
-        // try {
-
         $user = new AuthController();
         $user = $user->me($request);
 
@@ -56,7 +53,6 @@ class ProductRequestsController extends Controller
 
         $new_request->save();
 
-
         foreach ($request->links as $link) {
             ProductRequestLinks::create([
                 'request_id' => $new_request->id,
@@ -65,10 +61,7 @@ class ProductRequestsController extends Controller
         }
 
         return response()->json(['message' => 'created'], 200);
-        // } catch (\Throwable $th) {
-        //     return response()->json(['message' => 'Something went wrong, try again'], 400);
-        // }
-    }
+    } 
 
     public function get(Request $request)
     {

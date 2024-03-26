@@ -76,7 +76,6 @@ export default {
         };
     },
     beforeMount() {
-        this.checkIfLogged();
 
         axios.post(apiLink + "/api/getCategories")
             .then(({ data }) => {
