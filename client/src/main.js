@@ -42,7 +42,6 @@ pinia.use((context) => {
     })
 })
 
-
 app.use(pinia)
 app.use(router)
 app.config.devtools = true

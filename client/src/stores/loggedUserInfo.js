@@ -9,8 +9,6 @@ export let userLogged = defineStore('userLogged', {
       id: '',
       role: '',
       created_at: '',
-      wishList: []
     }
   },
-
 })

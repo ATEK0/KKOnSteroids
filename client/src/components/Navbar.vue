@@ -1,7 +1,10 @@
 <script setup>
 import { userLogged } from '@/stores/loggedUserInfo.js';
+import { searchHistory } from '@/stores/userHistory.js';
 
 let userInfo = userLogged()
+let searchHistoryStore = searchHistory()
+
 </script>
 
 <template>
@@ -21,12 +24,29 @@ let userInfo = userLogged()
                                 <p class="col-10">{{ product.name }}</p>
                             </div>
                         </a>
+                        <p class="ml-4">Recent Searches</p>
+                        <a :href="'products?search=' + search"
+                            v-for="(search, index) in searchHistoryStore.searchHistory" v-if="searchHistoryStore.searchHistory.length > 0">
+                            <div class="searchBarResult d-flex align-items-center justify-content-center p-1 gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="17">
+                                    <path
+                                        d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z" />
+                                </svg>
+                                <p class="col-10 p-0 m-0">{{ search }}</p>
+                                <svg @click.prevent="eraseSearchHistoryItem(index)" xmlns="http://www.w3.org/2000/svg"
+                                    style="z-index: 6;" viewBox="0 0 384 512" width="10">
+                                    <path
+                                        d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" />
+                                </svg>
+                            </div>
+                        </a>
+                        <p class="ml-4" v-else>No recent searches</p>
 
                     </div>
 
-                    <input v-model="search_query" @blur="checkX" @click="checkX" @focus="checkX" @keydown="checkX" @keypress="checkX"
-                        @keyup="checkX" id='navbar-search' class="navbar-search" type="search" placeholder="Search"
-                        aria-label="Search" style="z-index: 6;">
+                    <input v-model="search_query" @blur="checkX" @click="checkX" @focus="checkX" @keydown="checkX"
+                        @keypress="checkX" @keyup="checkX" id='navbar-search' class="navbar-search" type="search"
+                        placeholder="Search" aria-label="Search" style="z-index: 6;">
 
 
                     <svg v-if="show_x" @click.stop="eraseSearch" xmlns="http://www.w3.org/2000/svg" style="z-index: 6;"
@@ -56,9 +76,6 @@ let userInfo = userLogged()
 
                 </div>
 
-
-
-
             </div>
         </nav>
 
@@ -68,6 +85,7 @@ let userInfo = userLogged()
 <script>
 import axios from 'axios';
 import { apiLink } from '../config.js';
+import { searchHistory } from '@/stores/userHistory.js';
 
 export default {
     name: 'navbar',
@@ -76,7 +94,9 @@ export default {
             show_x: false,
             search_query: '',
             user: '',
-            searchBarProducts: []
+            searchBarProducts: [],
+            searchHistoryStore: searchHistory()
+
         };
     },
     mounted() {
@@ -97,7 +117,6 @@ export default {
             }
             this.adjustSearchResultsWidth()
 
-
         },
         eraseSearch() {
             this.search_query = ''
@@ -108,17 +127,25 @@ export default {
             axios.post(apiLink + "/api/searchQueryFromSearchBar", { searchQuery: this.search_query })
                 .then(({ data }) => {
 
-                    console.log(data)
                     if (data.length == 0) {
-                        this.searchBarProducts = [{ 'name': 'No results found for ' + this.search_query, 'productImage': 'https://static-00.iconduck.com/assets.00/magnifying-glass-icon-2048x2048-nyrpioom.png' }]
+                        this.searchBarProducts = [{ 'name': 'No results found for ' + this.search_query, 'productImage': 'https://i.pinimg.com/736x/19/65/ab/1965ab7ef7de87fe748b3c66efbfc73a.jpg' }]
                     }
                     else {
                         this.searchBarProducts = data
                     }
 
+
                 });
         },
         submit() {
+
+            if (this.searchHistoryStore.searchHistory.length > 10) {
+                this.searchHistoryStore.searchHistory.pop()
+            }
+
+            this.searchHistoryStore.searchHistory.unshift(this.search_query)
+
+
             window.location.href = "/products?search=" + this.search_query;
 
         },
@@ -135,6 +162,9 @@ export default {
             this.search()
 
         },
+        eraseSearchHistoryItem(historyID) {
+            this.searchHistoryStore.searchHistory.splice(historyID, 1);
+        }
     }
 };
 </script>

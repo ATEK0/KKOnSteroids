@@ -11,6 +11,7 @@ export default {
                 
                 $cookies.remove("jwtoken")
                 localStorage.removeItem("userLogged")
+                localStorage.removeItem("searchHistory")
 
                 window.location.href ="/login"
 

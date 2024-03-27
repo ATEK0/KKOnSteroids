@@ -21,17 +21,19 @@ let userInfo = userLogged();
       <br>
       <div class="wishlist-wrapper d-flex flex-row ">
         <div class="col-3" v-for="wishlist in wishlists">
-          <div
-            class="d-flex h-100 flex-column justify-content-center align-items-center p-2 pb-3 fw-bold wishlist shadow-sm">
-            <div class="container row d-flex justify-content-center align-items-center">
-              <div v-for="prod in wishlist.content.slice(0, 4)"
-                class="col-5 d-flex justify-content-center align-items-center"
-                style="padding-bottom: 7.5px;padding-top: 7.5px;">
-                <img :src="prod.productImage" class="img-fluid">
+          <a :href="'/wishlist/' + wishlist.slug">
+            <div
+              class="d-flex h-100 flex-column justify-content-center align-items-center p-2 pb-3 fw-bold wishlist shadow-sm">
+              <div class="container row d-flex justify-content-center align-items-center">
+                <div v-for="prod in wishlist.content.slice(0, 4)"
+                  class="col-5 d-flex justify-content-center align-items-center"
+                  style="padding-bottom: 7.5px;padding-top: 7.5px;">
+                  <img :src="prod.productImage" class="img-fluid">
+                </div>
               </div>
+              <div class="mt-3">{{ wishlist.name }}</div>
             </div>
-            <div class="mt-3">{{ wishlist.name }}</div>
-          </div>
+          </a>
         </div>
 
         <div class="col-3" data-bs-toggle="modal" data-bs-target="#wishlistCreateModal">

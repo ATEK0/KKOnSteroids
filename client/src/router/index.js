@@ -28,7 +28,7 @@ import ProductsAdminDashboard from '@/views/ADMIN/products/Index.vue'
 import CreateNewProduct from '@/views/ADMIN/products/CreateProduct.vue'
 import EditProduct from '@/views/ADMIN/products/EditProduct.vue'
 
-
+import WishlistIndividual from '@/views/WishlistIndividual.vue'
 
 import NotFound from '@/components/NotFound.vue'
 
@@ -109,6 +109,14 @@ const router = createRouter({
       path: '/category/:category',
       name: 'ProductListByCategory',
       component: ProductListByCategory,
+    },
+    {
+      path: '/wishlist/:slug',
+      name: 'WishlistIndividual',
+      component: WishlistIndividual,
+      meta: {
+        requiresAuth: true,
+      }
     },
     {
       path: '/admin/categories',

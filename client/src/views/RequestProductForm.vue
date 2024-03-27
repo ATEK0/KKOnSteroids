@@ -109,7 +109,6 @@ export default {
 
                 return ''
             }
-            console.log(this.product)
 
             axios.defaults.headers.common["Authorization"] =
                 "Bearer " + $cookies.get('jwtoken');

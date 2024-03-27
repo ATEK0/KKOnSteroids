@@ -49,7 +49,7 @@ export default {
     data() {
         return {
             result: {},
-            student: {
+            user: {
                 name: '',
                 email: '',
                 password: '',
@@ -64,7 +64,7 @@ export default {
     },
     methods: {
         registerUser() {
-            axios.post(apiLink + "/api/register", this.student)
+            axios.post(apiLink + "/api/register", this.user)
                 .then(({ data }) => {
 
                     toast("Account created", {

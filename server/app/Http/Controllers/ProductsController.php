@@ -359,4 +359,7 @@ class ProductsController extends Controller
 
         return $products;
     }
+
+    public function searchProducts(Request $request) {
+    }
 }

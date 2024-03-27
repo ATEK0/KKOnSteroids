@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\PriceHistoryController;
 use App\Http\Controllers\ProductRequestsController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\WebScrapper;
@@ -32,7 +33,6 @@ Route::middleware("auth:sanctum")->get("/user", function (Request $request) {
 //auth routes
 Route::post("/register", [AuthController::class, "register"]);
 Route::post("/login", [AuthController::class, "login"]);
-Route::post("/updateAccount", [AuthController::class, "update"]);
 Route::post("/me", [AuthController::class, "me"]);
 Route::post("/logout", [AuthController::class, "logout"]);
 Route::post("/check-login", [AuthController::class, "checkLogin"]);
@@ -74,6 +74,8 @@ Route::post("/activateRequest", [ProductRequestsController::class, "activate"]);
 //user routes
 Route::post("/getUsersCount", [UserController::class, "getCount"]);
 Route::post("/getUsers", [UserController::class, "getUsers"]);
+Route::post("/updateAccount", [UserController::class, "update"]);
+Route::post("/deleteAccount", [UserController::class,"delete"]);
 
 //webscrapper
 Route::post("/scrapper", [WebScrapper::class, "index"]);
@@ -84,3 +86,8 @@ Route::post("/createWishlist", [WishlistController::class,"store"]);
 Route::post("/addProductToWishlist", [WishlistController::class,"addProductToWishlist"]);
 Route::post("/removeProductFromWishlist", [WishlistController::class,"removeProductFromWishlist"]);
 Route::post("/getProductPresences", [WishlistController::class,"getProductPresences"]);
+Route::post("/getWishlist", [WishlistController::class,"getWishlist"]);
+
+
+//price history
+Route::post("/getPriceHistory", [PriceHistoryController::class,"getPricesLast30Days"]);

@@ -39,45 +39,6 @@ class AuthController extends Controller
         return response()->json(['message' => 'User registred'], 201);
     }
 
-    public function update(Request $request)
-    {
-        if ($this->checkIfAdmin($request)) {
-
-            $user = User::where('id', '=', $request->idtoChange)->first();
-
-            $emailExist = User::where('email', $request->email)->first();
-
-            if ($emailExist && $user->email != $request->email) {
-                return response()->json(['error'=> 'Email Already in Use'], 409);
-            }
-
-            $user->name = $request->name;
-            $user->email = $request->email;
-
-            if ($user->password) {
-                $user->password = bcrypt($request->password);
-            }
-
-            $user->save();
-
-            return response()->json(['message' => 'User registred'], 201);
-        } else {
-            return response()->json(['message' => 'Unauthorized'], 401);
-        }
-    }
-
-    public function delete(Request $request)
-    {
-        if ($this->checkIfAdmin($request)) {
-
-            User::find($request->id)->delete();
-
-            return response()->json(['message' => 'User deleted'], 201);
-        } else {
-            return response()->json(['message' => 'Unauthorized'], 401);
-        }
-    }
-
     public function logout(Request $request)
     {
         return response()->json([], 200);

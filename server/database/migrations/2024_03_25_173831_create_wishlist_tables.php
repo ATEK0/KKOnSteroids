@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Validation\Rules\Unique;
 
 return new class extends Migration
 {
@@ -16,6 +17,7 @@ return new class extends Migration
             $table->timestamps();
             $table->string("name");
             $table->integer("ownedBy");
+            $table->string("slug")->unique();
         });
 
         Schema::create('wishlist_content', function (Blueprint $table) {

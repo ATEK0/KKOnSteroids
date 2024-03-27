@@ -48,6 +48,12 @@ class WishlistController extends Controller
             $wishlist = new Wishlist();
             $wishlist->name = $request->name;
             $wishlist->ownedBy = $user->id;
+            $wishlist->slug = "algo";
+            $wishlist->save();
+
+            $wishlist->slug =
+                preg_replace("/\s+/", "-", $wishlist->name) .
+                "-" . $wishlist->id;
 
             $wishlist->save();
 
@@ -109,4 +115,28 @@ class WishlistController extends Controller
             return response()->json(["Invalid wishlist ID"], 400);
         }
     }
+
+    public function getWishlist(Request $request)
+    {
+        $wishlists = $this->get($request);
+
+        $wishlistIDs = $wishlists->pluck('id')->toArray();
+
+        if ($wishlistIDs) {
+
+            $wishlist = Wishlist::where('slug', $request->slug)->first();
+
+            $wishlistItem = WishlistListContent::where('wishlistID', $wishlist->id)->get();
+
+            $wishlistContent = Products::whereIn('id', $wishlistItem->pluck('productID'))->get();
+
+            $wishlist->content = $wishlistContent;
+
+            return $wishlist;
+
+        } else {
+            return response()->json(["Invalid wishlist ID"], 400);
+        }
+    }
+
 }

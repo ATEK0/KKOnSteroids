@@ -91,6 +91,11 @@ import SideNavBar from '@/components/NavAdmin.vue'
                                 <InputText class="w-100" v-model="categoryName" />
                                 <label>Category Name</label>
                             </FloatLabel>
+
+                            <FloatLabel class="w-100 mt-4">
+                                <InputText class="w-100" v-model="categoryLink" />
+                                <label>Category Image Link</label>
+                            </FloatLabel>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -177,7 +182,7 @@ export default {
             categoryName: '',
             categoryLink: '',
             categoryNameCreate: '',
-            categoryImageCreate: ''
+            categoryImageCreate: '',
         };
     },
     computed: {
@@ -194,6 +199,7 @@ export default {
         editCategory(category) {
             this.categoryClicked = [category.data.id, category.data.name]
             this.categoryName = category.data.name
+            this.categoryLink = category.data.imageLink
         },
         updateCategory() {
             axios.defaults.headers.common["Authorization"] =
