@@ -40,7 +40,7 @@ import NavBar from '@/components/Navbar.vue'
 
 <script>
 import axios from 'axios';
-import { apiLink } from '../config.js';
+import { apiLink } from '../../config.js';
 import { toast } from "vue3-toastify";
 import "vue3-toastify/dist/index.css";
 

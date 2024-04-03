@@ -45,27 +45,16 @@ import FooterBar from '@/components/Footer.vue'
                 </div>
             </div>
 
-            <div class="filter-section mb-2">
-                <div class="filter-title">Categories</div>
-                <div class="filter-options ps-2" style="max-height: 100px;">
-                    <div class="filter m-0 overflow-auto" v-for="category in categories">
-                        <input type="checkbox" :name="category.id" @change="categoryClicked($event)" :id="category.id"
-                            class="me-1">
-                        <label :for="category.id" style="font-size: 15px;">{{ category.name }}</label>
-                    </div>
-                </div>
-            </div>
-
         </div>
         <div class=" w-100 p-2">
             <div class="row gap-2">
                 <h3>{{ title }}</h3>
-                <div v-if="products" class="card product-card col-2 justify-content-end p-2 mb-0"
+                <div v-if="products" class="card product-card col-2 justify-content-end p-3 mb-0"
                     v-for="product in products">
                     <img :src="product.productImage" alt="" class="img-fluid m-auto p-3">
-                    <h6 class="product-title"><a :href="'/product/' + product.slug">{{ product.name.slice(0, 20) }}</a>
+                    <h6 class="product-title"><a :href="'/product/' + product.slug">{{ product.name.slice(0, 18) }}</a>
                     </h6>
-                    <small class="product-description text-start">{{ product.description.slice(0, 40) }}...</small>
+                    <small class="product-description text-start">{{ product.description.slice(0, 50) }}...</small>
                     <div class="d-flex flex-row justify-content-between w-100 align-items-center mb-1 mt-4">
                         <span class="price fw-bold">{{ product.lowerprice }}€</span>
                         <div class="d-flex gap-1">
@@ -161,7 +150,6 @@ export default {
             categories: [],
             fromPrice: '',
             toPrice: '',
-            selectedCategories: [],
             selectedBrands: []
         };
     },
@@ -169,12 +157,13 @@ export default {
         loadProducts() {
 
             if (!this.$route.query.search) {
-                axios.post(apiLink + "/api/getProductsByCategory", { category: this.$route.params.category })
+                axios.post(apiLink + "/api/getProductsByCategory", { category: this.$route.params.category, lowerPrice: this.fromPrice, highPrice: this.toPrice, brands: this.selectedBrands })
                     .then(({ data }) => {
 
                         this.products = data
 
                     });
+
             } else {
 
                 axios.post(apiLink + "/api/getProductsFromSearch", { searchQuery: this.$route.query.search })
@@ -191,17 +180,8 @@ export default {
         },
         loadFilters() {
 
-            this.getCategories()
             this.getBrands()
 
-        },
-        getCategories() {
-            axios.post(apiLink + "/api/getCategories")
-                .then(({ data }) => {
-
-                    this.categories = data
-                    // console.log(data)
-                });
         },
         getBrands() {
             axios.get(apiLink + "/api/getBrands")

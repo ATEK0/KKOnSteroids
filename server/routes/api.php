@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\Banners;
 use App\Http\Controllers\BannersController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\EmailController;
@@ -9,15 +8,12 @@ use App\Http\Controllers\PriceHistoryController;
 use App\Http\Controllers\ProductRequestsController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\TargetPriceController;
-use App\Http\Controllers\WebScrapper;
-use App\Http\Middleware\AuthenticateMiddleware;
+use App\Http\Controllers\PriceScrapperController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WishlistController;
-use App\Http\Middleware\Authenticate;
-use Illuminate\Auth\Middleware\Authenticate as MiddlewareAuthenticate;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,8 +34,7 @@ Route::middleware("auth:sanctum")->get("/user", function (Request $request) {
 Route::post("/register", [AuthController::class, "register"]);
 Route::post("/login", [AuthController::class, "login"]);
 Route::post("/me", [AuthController::class, "me"]);
-Route::post("/logout", [AuthController::class, "logout"]);
-Route::post("/check-login", [AuthController::class, "checkLogin"]);
+
 
 //permission routes
 Route::post("/checkIfAdmin", [AuthController::class, "checkIfAdmin"]);
@@ -83,7 +78,7 @@ Route::post("/updateAccount", [UserController::class, "update"]);
 Route::post("/deleteAccount", [UserController::class,"delete"]);
 
 //webscrapper
-Route::post("/scrapper", [WebScrapper::class, "index"]);
+Route::post("/scrapper", [PriceScrapperController::class, "index"]);
 
 //wishlists
 Route::post("/getWishlists", [WishlistController::class,"get"]);

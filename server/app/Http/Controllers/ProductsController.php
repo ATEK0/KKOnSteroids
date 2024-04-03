@@ -8,6 +8,7 @@ use App\Models\ProductRequests;
 use App\Models\Products;
 use App\Models\ProductLinks;
 
+use App\Traits\ScrapperTrait;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Arr;
@@ -88,7 +89,7 @@ class ProductsController extends Controller
 
             for ($i = 0; $i < count($product_info["links"]); $i++) {
                 $product_links = new ProductLinks();
-                $scraper = new WebScrapperService();
+                $scraper = new ScrapperTrait();
 
                 $product_links->product_id = $product->id;
                 $product_links->link = $product_info["links"][$i]["link"];
@@ -120,12 +121,9 @@ class ProductsController extends Controller
                     $product_info["htmlElements"][$i]
                 );
 
-                $product_links->product_price = number_format(
-                    (float) str_replace(['$', "€", "£"], "", $productPrice),
-                    2,
-                    ".",
-                    ""
-                );
+                
+                $product_links->product_price = str_replace(['$', "€", "£"], "", $productPrice);
+
 
                 if ($product_links->product_price < $product->lowerprice) {
                     $product->lowerprice = $product_links->product_price;
@@ -249,7 +247,7 @@ class ProductsController extends Controller
 
             for ($i = 0; $i < count($product_info["links"]); $i++) {
                 $product_links = new ProductLinks();
-                $scraper = new WebScrapperService();
+                $scraper = new ScrapperTrait();
 
                 $product_links->product_id = $product->id;
                 $product_links->link = $product_info["links"][$i]["link"];
@@ -336,11 +334,32 @@ class ProductsController extends Controller
             $category->id
         )->get();
 
+
+
         $productIds = $categoryProducts->pluck("product_id")->toArray();
 
-        $products = Products::whereIn("id", $productIds)->get();
+        $products = Products::query();
 
-        return response()->json($products, 200);
+        $products->whereIn("id", $productIds);
+
+
+        if (!$request->lowerPrice && !$request->highPrice && !$request->brands) {
+            return $products->get();
+        }
+        if ($request->lowerPrice) {
+            $products->where("lowerprice", '>=', $request->lowerPrice);
+        }
+        if ($request->highPrice) {
+            $products->where("lowerprice", '<=', $request->highPrice);
+        }
+        if ($request->brands) {
+            $products->whereIn("brand", $request->brands);
+        }
+
+
+        return $products->get();
+
+
     }
 
     public function getRecommendedProducts(Request $request)

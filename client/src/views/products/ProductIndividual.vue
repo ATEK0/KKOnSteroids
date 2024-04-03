@@ -1,7 +1,7 @@
 <script setup>
 
 import NavBar from '@/components/Navbar.vue'
-import NotFound from '@/components/NotFound.vue'
+import NotFound from '@/views/errors/NotFound.vue'
 import FooterBar from '@/components/Footer.vue'
 
 import PriceChart from "@/components/PriceChart.vue"
@@ -255,6 +255,7 @@ export default {
                     this.result = data
 
                     this.loadMarkets(data.id)
+                    this.getTargetPrice()
 
                 });
         },
@@ -340,7 +341,6 @@ export default {
                         this.productPresences.push(element.wishlistID)
                     });
 
-                    this.getTargetPrice()
 
                 });
         },

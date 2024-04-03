@@ -60,12 +60,12 @@ import FooterBar from '@/components/Footer.vue'
         <div class=" w-100 p-2">
             <div class="row gap-2">
                 <h3>{{ title }}</h3>
-                <div v-if="products" class="card product-card col-2 justify-content-end p-2 mb-0"
+                <div v-if="products" class="card product-card col-2 justify-content-end p-3 mb-0"
                     v-for="product in products">
                     <img :src="product.productImage" alt="" class="img-fluid m-auto p-3">
-                    <h6 class="product-title"><a :href="'/product/' + product.slug">{{ product.name.slice(0, 20) }}</a>
+                    <h6 class="product-title"><a :href="'/product/' + product.slug">{{ product.name.slice(0, 18) }}</a>
                     </h6>
-                    <small class="product-description text-start">{{ product.description.slice(0, 40) }}...</small>
+                    <small class="product-description text-start">{{ product.description.slice(0, 50) }}...</small>
                     <div class="d-flex flex-row justify-content-between w-100 align-items-center mb-1 mt-4">
                         <span class="price fw-bold">{{ product.lowerprice }}€</span>
                         <div class="d-flex gap-1">

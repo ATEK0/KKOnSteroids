@@ -7,9 +7,9 @@
 
         <div class="card product-card col-2 justify-content-end p-3 pb-0 mb-0" v-for="product in mostViewList">
           <img :src="product.productImage" alt="" class="img-fluid m-auto p-2">
-          <h6 class="product-title"><a :href="'/product/' + product.slug">{{ product.name.slice(0, 20) }}</a>
+          <h6 class="product-title"><a :href="'/product/' + product.slug">{{ product.name.slice(0, 18) }}</a>
           </h6>
-          <small class="product-description text-start">{{ product.description.slice(0, 40) }}...</small>
+          <small class="product-description text-start">{{ product.description.slice(0, 50) }}...</small>
           <div class="d-flex flex-row justify-content-between w-100 align-items-center mb-1 mt-4">
             <span class="price fw-bold">{{ product.lowerprice }}€</span>
             <div class="d-flex gap-1">
@@ -24,7 +24,6 @@
               <a :href="'/product/' + product.slug" class="h-fit"><button class="btn btn-primary py-1">Ver</button></a>
             </div>
           </div>
-          <small>Available in X stores</small>
         </div>
 
       </div>
@@ -103,7 +102,6 @@ export default {
     axios.post(apiLink + "/api/mostView")
       .then(({ data }) => {
 
-        // console.log(data)
         this.mostViewList = data
 
       });

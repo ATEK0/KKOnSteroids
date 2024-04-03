@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Traits\ScrapperTrait;
 use Illuminate\Http\Request;
 
-class WebScrapper extends Controller
+class PriceScrapperController extends Controller
 {
     public function index(Request $request)
     {

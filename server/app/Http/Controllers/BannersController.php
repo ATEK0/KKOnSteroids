@@ -22,7 +22,6 @@ class BannersController extends Controller
 
             $banner = new Banners();
             $banner->imageLink = $request->imageLink;
-
             $banner->save();
 
             return "Banner Added";

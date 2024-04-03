@@ -4,16 +4,14 @@ import { userLogged } from '@/stores/loggedUserInfo.js';
 
 import Homepage from '../views/Homepage.vue'
 
-import Register from '../components/Register.vue'
-import Login from '@/components/Login.vue'
-import Logout from '@/components/Logout.vue'
-import UserInfo from '@/views/UserInfo.vue'
+import Register from '@/views/auth/Register.vue'
+import Login from '@/views/auth/Login.vue'
+import Logout from '@/views/auth/Logout.vue'
 import Account from '@/views/Account.vue'
 import ProductIndividual from '@/views/products/ProductIndividual.vue'
 import RequestProductForm from '@/views/RequestProductForm.vue'
 import ProductList from "@/views/products/ProductList.vue"
 import ProductListByCategory from '@/views/products/ProductListByCategory.vue'
-
 
 import AdminDashboard from '@/views/ADMIN/Dashboard.vue'
 
@@ -32,7 +30,7 @@ import EditProduct from '@/views/ADMIN/products/EditProduct.vue'
 
 import WishlistIndividual from '@/views/WishlistIndividual.vue'
 
-import NotFound from '@/components/NotFound.vue'
+import NotFound from '@/views/errors/NotFound.vue'
 
 
 const router = createRouter({
@@ -58,11 +56,6 @@ const router = createRouter({
       meta: {
         requiresNoAuth: true,
       }
-    },
-    {
-      path: '/userinfo',
-      name: 'userinfo',
-      component: UserInfo
     },
     {
       path: '/logout',
@@ -192,11 +185,10 @@ const router = createRouter({
         requiresAdmin: true
       }
     },
-    {
-      path: '/not-found',
-      name: 'NotFound',
-      component: NotFound
-    }
+    { 
+      path: '/:pathMatch(.*)*', 
+      component: NotFound 
+    },  
   ]
 })
 

@@ -21,8 +21,6 @@ class AuthController extends Controller
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
-
-
         return response()->json(['token' => $token], 200);
     }
 
@@ -30,18 +28,13 @@ class AuthController extends Controller
     public function register(Request $request)
     {
 
-        $user = User::create([
+        User::create([
             "name" => $request->name,
             "email" => $request->email,
             "password" => bcrypt($request->password),
         ]);
 
         return response()->json(['message' => 'User registred'], 201);
-    }
-
-    public function logout(Request $request)
-    {
-        return response()->json([], 200);
     }
 
     public function me(Request $request)
@@ -60,8 +53,6 @@ class AuthController extends Controller
 
         $user->role = $userRoleLabel->role;
 
-
-
         return $user;
     }
 
@@ -75,18 +66,5 @@ class AuthController extends Controller
         }
 
         return false;
-    }
-
-    public function checkLogin(Request $request)
-    {
-        try {
-            $token = $request->bearerToken();
-            $token = JWTAuth::getToken();
-            JWTAuth::parseToken()->authenticate();
-        } catch (\Throwable $th) {
-            return false;
-        }
-
-        return true;
     }
 }
