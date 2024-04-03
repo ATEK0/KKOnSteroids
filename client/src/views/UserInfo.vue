@@ -40,7 +40,7 @@ export default {
             axios.post(apiLink + "/api/me")
                 .then(({ data }) => {
 
-                    console.log(data)
+                    // console.log(data)
 
                     this.username = data
 

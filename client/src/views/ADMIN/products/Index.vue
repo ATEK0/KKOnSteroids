@@ -214,7 +214,7 @@ export default {
                 "Bearer " + $cookies.get('jwtoken');
             axios.post(apiLink + "/api/getProducts")
                 .then(({ data }) => {
-                    console.log(data)
+                    // console.log(data)
                     this.requests = data
                 });
         },

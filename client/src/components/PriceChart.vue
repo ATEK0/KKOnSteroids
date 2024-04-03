@@ -17,7 +17,6 @@ import {
   Legend
 } from 'chart.js'
 import { Line } from 'vue-chartjs'
-import * as chartConfig from './chartConfig.js'
 
 ChartJS.register(
   CategoryScale,
@@ -58,8 +57,7 @@ export default {
       axios.post(apiLink + "/api/getPriceHistory", { slug: this.$route.params.slug })
         .then(({ data }) => {
 
-          console.log(data);
-          
+          data = data.reverse()
           data.forEach(element => {
             this.data.labels.unshift(element.label)
             this.data.datasets[0].data.unshift(element.y)

@@ -155,7 +155,7 @@ export default {
             axios.post(apiLink + "/api/getRequest", { requestID: this.$route.params.requestID })
                 .then(({ data }) => {
 
-                    console.log(data)
+                    // console.log(data)
                     this.request = data
                     this.newStatus = data.status
 

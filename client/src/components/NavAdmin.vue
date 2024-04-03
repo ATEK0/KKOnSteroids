@@ -56,7 +56,7 @@
                         </li>
                         <li class="nav-header">Homepage</li>
                         <li class="nav-item">
-                            <a href="/admin/homepage/banners" class="nav-link">
+                            <a href="/admin/banners" class="nav-link">
                                 <i class="nav-icon fa fa-images"></i>
                                 <p>
                                     Banners

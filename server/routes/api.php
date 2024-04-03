@@ -1,10 +1,14 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Banners;
+use App\Http\Controllers\BannersController;
 use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\EmailController;
 use App\Http\Controllers\PriceHistoryController;
 use App\Http\Controllers\ProductRequestsController;
 use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\TargetPriceController;
 use App\Http\Controllers\WebScrapper;
 use App\Http\Middleware\AuthenticateMiddleware;
 use Illuminate\Http\Request;
@@ -61,6 +65,7 @@ Route::post("/getProductsByCategory", [ProductsController::class,"getProductsByC
 Route::post("/getRecomendedProducts", [ProductsController::class,"getRecommendedProducts"]);
 Route::post("/searchQueryFromSearchBar", [ProductsController::class,"getProductsInSearchBar"]);
 Route::post("/getProductsFromSearch", [ProductsController::class,"getProductsFromSearch",]);
+Route::get("/getBrands", [ProductsController::class,"getBrands",]);
 
 
 //product request routes
@@ -88,6 +93,19 @@ Route::post("/removeProductFromWishlist", [WishlistController::class,"removeProd
 Route::post("/getProductPresences", [WishlistController::class,"getProductPresences"]);
 Route::post("/getWishlist", [WishlistController::class,"getWishlist"]);
 
-
 //price history
 Route::post("/getPriceHistory", [PriceHistoryController::class,"getPricesLast30Days"]);
+
+//banners
+Route::get("/getBanners", [BannersController::class,"getBanners"]);
+Route::post("/createBanner", [BannersController::class,"addBanner"]);
+Route::post("/deleteBanner", [BannersController::class,"deleteBanner"]);
+
+//mail
+Route::get('/send-test-mail', [EmailController::class, 'sendPriceTargetMail']);
+
+//target price
+Route::post('/getTargetPrice', [TargetPriceController::class, 'getTargetPrice']);
+Route::post('/setTargetPrice', [TargetPriceController::class, 'setTargetPrice']);
+
+

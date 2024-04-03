@@ -2,11 +2,14 @@
 
 namespace App\Console\Commands;
 
+use App\Http\Controllers\EmailController;
 use App\Models\ProductLinks;
 use App\Models\Products;
+use App\Models\TargetPrice;
 use Illuminate\Console\Command;
 use App\Http\Controllers\WebScrapperService;
 use App\Models\PriceHistory;
+use App\Models\User;
 
 class DailyTask extends Command
 {
@@ -33,13 +36,18 @@ class DailyTask extends Command
 
         $products = Products::all();
 
+        echo "Checking prices...\n";
+
+        $productsCount = $products->count();
+
+        $prodCounter = 0;
 
         foreach ($products as $product) { //check each product
 
             $product->isTodayStar = 0;
             $links = ProductLinks::where('product_id', $product->id)->get();
-            $minPrice = 99999999999999999;
-            echo '- ' . $product->id;
+            $minPrice = 999999999999999999;
+
             foreach ($links as $link) { //check all the links linked to that product
 
                 $scraper = new WebScrapperService();
@@ -64,6 +72,11 @@ class DailyTask extends Command
             $product->save();
 
             $this->update_price_chart($product->id, $product->lowerprice);
+
+            $prodCounter += 1;
+
+            echo round((($prodCounter * 100) / $productsCount), 0) . "%\n";
+
         }
 
         $isTodayStar = Products::inRandomOrder()->first();
@@ -71,6 +84,32 @@ class DailyTask extends Command
         $isTodayStar->isTodayStar = 1;
 
         $isTodayStar->save();
+
+
+        echo "\nChecking Price targets\n";
+        # trigger price alerts
+
+        $target_price = TargetPrice::all();
+
+        
+
+        foreach ($target_price as $target) { // checks all alerts
+
+            $product = Products::where('id', $target->productID)->first(); // get product referenced in that alert
+
+            if ($product->lowerprice <= $target->target_price) { // if the price product is lower or equal to the target, gets the user that created the target and sends an email to his account telling the target was reached
+
+                $user = User::where('id', $target->userID)->first();
+
+                $mailSender = new EmailController();
+
+                $mailSender->sendPriceTargetMail($product, $user, $target);
+
+                // $target->delete();
+
+            }
+        }
+
 
     }
     private function update_price_chart($product_id, $product_price)

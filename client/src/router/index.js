@@ -24,6 +24,8 @@ import CategoriesDashboard from '@/views/ADMIN/categories/Index.vue'
 
 import UsersAdminDashboard from '@/views/ADMIN/users/Index.vue'
 
+import Banners from '@/views/ADMIN/Banners.vue'
+
 import ProductsAdminDashboard from '@/views/ADMIN/products/Index.vue'
 import CreateNewProduct from '@/views/ADMIN/products/CreateProduct.vue'
 import EditProduct from '@/views/ADMIN/products/EditProduct.vue'
@@ -176,6 +178,15 @@ const router = createRouter({
       path: '/admin/products/edit/:slug',
       name: 'editProduct',
       component: EditProduct,
+      meta: {
+        requiresAuth: true,
+        requiresAdmin: true
+      }
+    },
+    {
+      path: '/admin/banners',
+      name: 'configureBanners',
+      component: Banners,
       meta: {
         requiresAuth: true,
         requiresAdmin: true

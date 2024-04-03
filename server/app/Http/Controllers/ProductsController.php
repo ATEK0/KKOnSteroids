@@ -25,12 +25,32 @@ class ProductsController extends Controller
         }
     }
 
-    public function getProducts(Request $request)
+    public function getProducts(Request $request) // returns all products
     {
-        return Products::inRandomOrder()->get();
+        $query = Products::query();
+
+        if (!$request->lowerPrice && !$request->highPrice && !$request->categories && !$request->brands) {
+            return $query->inRandomOrder()->get();
+        }
+        if ($request->lowerPrice) {
+            $query->where("lowerprice", '>=', $request->lowerPrice);
+        }
+        if ($request->highPrice) {
+            $query->where("lowerprice", '<=', $request->highPrice);
+        }
+        if ($request->brands) {
+            $query->whereIn("brand", $request->brands);
+        }
+        if ($request->categories) {
+            $categories = ProductCategories::whereIn('category_id', $request->categories)->get();
+            $query->whereIn('id', $categories->pluck('product_id'));
+        }
+
+        return $query->get();
     }
 
-    public function store(Request $request)
+
+    public function store(Request $request) //store products
     {
         $auth = new AuthController();
 
@@ -130,7 +150,7 @@ class ProductsController extends Controller
         }
     }
 
-    public function show(Request $request)
+    public function show(Request $request) //show products
     {
         $product = Products::where("slug", $request->slug)->first();
 
@@ -352,7 +372,8 @@ class ProductsController extends Controller
         return $products;
     }
 
-    public function getProductsFromSearch(Request $request) {
+    public function getProductsFromSearch(Request $request)
+    {
         $searchQuery = $request->searchQuery;
 
         $products = Products::where("name", "like", "%" . $searchQuery . "%")->get();
@@ -360,6 +381,14 @@ class ProductsController extends Controller
         return $products;
     }
 
-    public function searchProducts(Request $request) {
+    public function getBrands(Request $request)
+    {
+        $brands = Products::select("brand")->distinct()->get();
+
+        return $brands;
+    }
+
+    public function searchProducts(Request $request)
+    {
     }
 }

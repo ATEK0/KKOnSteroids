@@ -37,7 +37,7 @@ pinia.use((context) => {
 
     // listen for changes and update localstorage
     context.store.$subscribe((mutation, state) => {
-        console.log(mutation, state);
+        // console.log(mutation, state);
         window.localStorage.setItem(storeID, serilizer.serialize(state));
     })
 })

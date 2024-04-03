@@ -87,7 +87,7 @@ import SideNavBar from '@/components/NavAdmin.vue'
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <FloatLabel class="w-100 mt-3">
+                            <FloatLabel class="w-100">
                                 <InputText class="w-100" v-model="categoryName" />
                                 <label>Category Name</label>
                             </FloatLabel>
@@ -286,7 +286,6 @@ export default {
                 });
         },
         createCategory() {
-            console.log("teste")
             axios.defaults.headers.common["Authorization"] =
                 "Bearer " + $cookies.get('jwtoken');
             axios.post(apiLink + "/api/createCategory", { name: this.categoryNameCreate, imageLink: this.categoryImageCreate })

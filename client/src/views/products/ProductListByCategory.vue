@@ -11,9 +11,51 @@ import FooterBar from '@/components/Footer.vue'
 
 
     <div class="d-flex gap-2">
-        <div class="searchFilters card"
+        <div class="searchFilters card p-3 text-start"
             style="border-radius: 0px !important;box-shadow: none;margin-bottom: 0px !important;width: 20%;">
-            Brand
+            <h4>Filters</h4>
+
+            <div class="filter-section mb-2">
+                <div class="filter-title">Price</div>
+                <div class="filter-options ps-2">
+                    <div class="filter d-flex gap-2 justify-content-center align-items-center m-0">
+                        <div class="">
+                            <small>from</small>
+                            <input type="number" name="apple" placeholder="€" v-model="fromPrice" id="apple"
+                                class="form-control" @keyup="loadProducts()">
+                        </div>
+                        <div class="">
+                            <small>to</small>
+                            <input type="number" name="apple" placeholder="€" v-model="toPrice" id="apple"
+                                class="form-control" @keyup="loadProducts()">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="filter-section mb-2">
+                <div class="filter-title">Brands</div>
+                <div class="filter-options ps-2" style="max-height: 100px;">
+                    <div class="filter m-0 overflow-auto" v-for="brand in brands">
+                        <input type="checkbox" :name="brand.brand" @change="brandClicked($event)" @select=""
+                            :id="brand.brand" class="me-1">
+                        <label :for="brand.brand" style="font-size: 15px;">{{ brand.brand }}</label>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="filter-section mb-2">
+                <div class="filter-title">Categories</div>
+                <div class="filter-options ps-2" style="max-height: 100px;">
+                    <div class="filter m-0 overflow-auto" v-for="category in categories">
+                        <input type="checkbox" :name="category.id" @change="categoryClicked($event)" :id="category.id"
+                            class="me-1">
+                        <label :for="category.id" style="font-size: 15px;">{{ category.name }}</label>
+                    </div>
+                </div>
+            </div>
+
         </div>
         <div class=" w-100 p-2">
             <div class="row gap-2">
@@ -104,6 +146,7 @@ export default {
     name: 'ProductIndividual',
     beforeMount() {
         this.loadProducts()
+        this.loadFilters()
     },
     data() {
         return {
@@ -113,18 +156,58 @@ export default {
             title: '',
             notfound: '',
             wishlists: [],
-            productPresences: []
+            productPresences: [],
+            brands: [],
+            categories: [],
+            fromPrice: '',
+            toPrice: '',
+            selectedCategories: [],
+            selectedBrands: []
         };
     },
     methods: {
         loadProducts() {
-            axios.defaults.headers.common["Authorization"] =
-                "Bearer " + $cookies.get('jwtoken');
-            axios.post(apiLink + "/api/getProductsByCategory", { category: this.$route.params.category })
+
+            if (!this.$route.query.search) {
+                axios.post(apiLink + "/api/getProductsByCategory", { category: this.$route.params.category })
+                    .then(({ data }) => {
+
+                        this.products = data
+
+                    });
+            } else {
+
+                axios.post(apiLink + "/api/getProductsFromSearch", { searchQuery: this.$route.query.search })
+                    .then(({ data }) => {
+
+                        this.products = data
+                        this.title = 'Results for ' + this.$route.query.search
+                        this.notfound = ''
+                        if (data == '') {
+                            this.notfound = 'No results found for that product'
+                        }
+                    });
+            }
+        },
+        loadFilters() {
+
+            this.getCategories()
+            this.getBrands()
+
+        },
+        getCategories() {
+            axios.post(apiLink + "/api/getCategories")
                 .then(({ data }) => {
 
-                    this.products = data
+                    this.categories = data
+                    // console.log(data)
+                });
+        },
+        getBrands() {
+            axios.get(apiLink + "/api/getBrands")
+                .then(({ data }) => {
 
+                    this.brands = data
                 });
         },
         setProdClicked(prodID) {
@@ -207,6 +290,34 @@ export default {
             for (let i = 0; i < modalsBackdrops.length; i++) {
                 document.body.removeChild(modalsBackdrops[i]);
             }
+        },
+        brandClicked(event) {
+            if (event.target.checked) {
+                this.selectedBrands.push(event.target.id)
+            } else {
+                for (var i = 0; i <= this.selectedBrands.length; i++) {
+                    if (this.selectedBrands[i] === event.target.id) {
+                        this.selectedBrands.splice(i, 1);
+                    }
+                }
+            }
+
+            this.loadProducts()
+
+        },
+        categoryClicked(event) {
+            if (event.target.checked) {
+                this.selectedCategories.push(event.target.id)
+            } else {
+                for (var i = 0; i <= this.selectedCategories.length; i++) {
+                    if (this.selectedCategories[i] === event.target.id) {
+                        this.selectedCategories.splice(i, 1);
+                    }
+                }
+            }
+
+            this.loadProducts()
+
         },
 
     }

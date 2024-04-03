@@ -14,17 +14,17 @@ import NavBar from '@/components/Navbar.vue'
                 <div class="card-body text-center">
                     <form @submit.prevent="registerUser">
 
-                        <input type="text" placeholder="Name" v-model="student.name" name="name" id="name"
+                        <input type="text" placeholder="Name" v-model="user.name" name="name" id="name"
                             class="form-control mb-4">
 
-                        <input type="email" placeholder="Email" name="email" id="email" v-model="student.email"
+                        <input type="email" placeholder="Email" name="email" id="email" v-model="user.email"
                             class="form-control mb-4">
 
                         <input type="password" placeholder="Password" name="password" id="password"
-                            class="form-control mb-4" v-model="student.password">
+                            class="form-control mb-4" v-model="user.password">
 
                         <input type="password" placeholder="Confirm Password" name="password" id="password"
-                            class="form-control mb-4" v-model="student.passwordC">
+                            class="form-control mb-4" v-model="user.passwordC">
 
                         <input type="submit" value="Create" class="w-100 btn btn-primary mt-3">
 
@@ -71,7 +71,8 @@ export default {
                         "theme": "light",
                         "type": "success",
                         "transition": "zoom",
-                        "dangerouslyHTMLString": true
+                        "dangerouslyHTMLString": true,
+                        "autoClose": 2900,
                     })
 
                     setTimeout(() => {

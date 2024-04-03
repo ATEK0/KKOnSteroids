@@ -103,7 +103,7 @@ export default {
     axios.post(apiLink + "/api/mostView")
       .then(({ data }) => {
 
-        console.log(data)
+        // console.log(data)
         this.mostViewList = data
 
       });

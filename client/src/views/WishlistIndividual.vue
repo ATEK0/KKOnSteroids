@@ -89,7 +89,7 @@ export default {
             }
         },
         removeProductFromWishlist(productID) {
-            console.log(this.wishlist.id)
+            // console.log(this.wishlist.id)
             axios.defaults.headers.common["Authorization"] =
                 "Bearer " + $cookies.get('jwtoken');
             axios.post(apiLink + "/api/removeProductFromWishlist", { productID: productID, wishlistID: this.wishlist.id })

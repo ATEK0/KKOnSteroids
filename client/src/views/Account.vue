@@ -103,7 +103,7 @@ export default {
         .then(({ data }) => {
 
           this.wishlists = data
-          console.log(data)
+          // console.log(data)
 
         });
     },

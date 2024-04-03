@@ -6,6 +6,8 @@ import FooterBar from '@/components/Footer.vue'
 
 import PriceChart from "@/components/PriceChart.vue"
 
+import InputText from 'primevue/inputtext';
+import FloatLabel from 'primevue/floatlabel';
 </script>
 
 <template>
@@ -38,15 +40,22 @@ import PriceChart from "@/components/PriceChart.vue"
                         <small class="ms-1">Add to Wishlist</small>
                     </span>
 
-                    <span class="product_actions">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" viewBox="0 0 448 512">
+                    <span class="product_actions" @click="setClickedProd(0)" data-bs-toggle="modal"
+                        data-bs-target="#price_alert">
+                        <svg xmlns="http://www.w3.org/2000/svg" v-if="target_price == 'No target'" width="18"
+                            viewBox="0 0 448 512">
                             <path
                                 d="M224 0c-17.7 0-32 14.3-32 32V51.2C119 66 64 130.6 64 208v25.4c0 45.4-15.5 89.5-43.8 124.9L5.3 377c-5.8 7.2-6.9 17.1-2.9 25.4S14.8 416 24 416H424c9.2 0 17.6-5.3 21.6-13.6s2.9-18.2-2.9-25.4l-14.9-18.6C399.5 322.9 384 278.8 384 233.4V208c0-77.4-55-142-128-156.8V32c0-17.7-14.3-32-32-32zm0 96c61.9 0 112 50.1 112 112v25.4c0 47.9 13.9 94.6 39.7 134.6H72.3C98.1 328 112 281.3 112 233.4V208c0-61.9 50.1-112 112-112zm64 352H224 160c0 17 6.7 33.3 18.7 45.3s28.3 18.7 45.3 18.7s33.3-6.7 45.3-18.7s18.7-28.3 18.7-45.3z" />
                         </svg>
-                        <small class="ms-1">Create Price Alert</small>
+                        <svg xmlns="http://www.w3.org/2000/svg" v-else width="18" viewBox="0 0 448 512">
+                            <path
+                                d="M224 0c-17.7 0-32 14.3-32 32V51.2C119 66 64 130.6 64 208v18.8c0 47-17.3 92.4-48.5 127.6l-7.4 8.3c-8.4 9.4-10.4 22.9-5.3 34.4S19.4 416 32 416H416c12.6 0 24-7.4 29.2-18.9s3.1-25-5.3-34.4l-7.4-8.3C401.3 319.2 384 273.9 384 226.8V208c0-77.4-55-142-128-156.8V32c0-17.7-14.3-32-32-32zm45.3 493.3c12-12 18.7-28.3 18.7-45.3H224 160c0 17 6.7 33.3 18.7 45.3s28.3 18.7 45.3 18.7s33.3-6.7 45.3-18.7z" />
+                        </svg>
+                        <small class="ms-1" v-if="target_price == 'No target'">Create Price Alert</small>
+                        <small class="ms-1" v-else>Change Price Alert</small>
                     </span>
 
-                    <span class="product_actions">
+                    <span class="product_actions" @click="copyLink">
                         <svg xmlns="http://www.w3.org/2000/svg" width="22" viewBox="0 0 640 512">
                             <path
                                 d="M579.8 267.7c56.5-56.5 56.5-148 0-204.5c-50-50-128.8-56.5-186.3-15.4l-1.6 1.1c-14.4 10.3-17.7 30.3-7.4 44.6s30.3 17.7 44.6 7.4l1.6-1.1c32.1-22.9 76-19.3 103.8 8.6c31.5 31.5 31.5 82.5 0 114L422.3 334.8c-31.5 31.5-82.5 31.5-114 0c-27.9-27.9-31.5-71.8-8.6-103.8l1.1-1.6c10.3-14.4 6.9-34.4-7.4-44.6s-34.4-6.9-44.6 7.4l-1.1 1.6C206.5 251.2 213 330 263 380c56.5 56.5 148 56.5 204.5 0L579.8 267.7zM60.2 244.3c-56.5 56.5-56.5 148 0 204.5c50 50 128.8 56.5 186.3 15.4l1.6-1.1c14.4-10.3 17.7-30.3 7.4-44.6s-30.3-17.7-44.6-7.4l-1.6 1.1c-32.1 22.9-76 19.3-103.8-8.6C74 372 74 321 105.5 289.5L217.7 177.2c31.5-31.5 82.5-31.5 114 0c27.9 27.9 31.5 71.8 8.6 103.9l-1.1 1.6c-10.3 14.4-6.9 34.4 7.4 44.6s34.4 6.9 44.6-7.4l1.1-1.6C433.5 260.8 427 182 377 132c-56.5-56.5-148-56.5-204.5 0L60.2 244.3z" />
@@ -59,7 +68,8 @@ import PriceChart from "@/components/PriceChart.vue"
                             <path
                                 d="M64 64c0-17.7-14.3-32-32-32S0 46.3 0 64V400c0 44.2 35.8 80 80 80H480c17.7 0 32-14.3 32-32s-14.3-32-32-32H80c-8.8 0-16-7.2-16-16V64zm406.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L320 210.7l-57.4-57.4c-12.5-12.5-32.8-12.5-45.3 0l-112 112c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L240 221.3l57.4 57.4c12.5 12.5 32.8 12.5 45.3 0l128-128z" />
                         </svg>
-                        <small class="ms-1">Share Product</small>
+                        <small class="ms-1"><a href="#priceChart" class="product_actions">Check Price
+                                History</a></small>
                     </span>
 
 
@@ -101,10 +111,12 @@ import PriceChart from "@/components/PriceChart.vue"
 
             <hr>
 
-            <div class="price-chart text-start">
+            <div class="price-chart text-start my-4" id="priceChart">
                 <h5 class="mb-3">Lowest prices over the last 30 days</h5>
                 <PriceChart />
             </div>
+
+            <hr>
 
             <div class="interests text-start">
                 <h2 class="font-weight-light">You might also like</h2>
@@ -178,6 +190,34 @@ import PriceChart from "@/components/PriceChart.vue"
                 </div>
             </div>
         </div>
+
+
+        <!-- Modal create price alert -->
+        <div class="modal fade" id="price_alert" tabindex="-1" aria-labelledby="price_alert" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header d-flex align-items-center">
+                        <h5 class="modal-title" id="price_alert">Create Price Alert</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+
+                        <FloatLabel class="w-100 mt-2">
+                            <InputText class="w-100" v-model="target_price" />
+                            <label>Target Price</label>
+                        </FloatLabel>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button class="btn btn-primary ms-2" @click="setTargetPrice" style="padding: 5px;">Set
+                            Alert</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
     </div>
     <FooterBar />
 
@@ -204,6 +244,7 @@ export default {
             wishlists: [],
             clickedProduct: '',
             productPresences: [], // this stores all the IDs of the wishlists where this product was found (only into user wishlists)
+            target_price: ''
         };
     },
     methods: {
@@ -299,6 +340,8 @@ export default {
                         this.productPresences.push(element.wishlistID)
                     });
 
+                    this.getTargetPrice()
+
                 });
         },
         closeAllModals() {
@@ -317,6 +360,47 @@ export default {
                 document.body.removeChild(modalsBackdrops[i]);
             }
         },
+        getTargetPrice() {
+
+            axios.defaults.headers.common["Authorization"] =
+                "Bearer " + $cookies.get('jwtoken');
+            axios.post(apiLink + "/api/getTargetPrice", { productID: this.result.id })
+                .then(({ data }) => {
+                    
+                    this.target_price = data
+
+                });
+
+        },
+        setTargetPrice() {
+            axios.defaults.headers.common["Authorization"] =
+                "Bearer " + $cookies.get('jwtoken');
+            axios.post(apiLink + "/api/setTargetPrice", { productID: this.result.id, target_price: this.target_price })
+                .then(({ data }) => {
+
+                    toast(data, {
+                        "type": "success",
+                        "autoClose": 1000,
+                        "dangerouslyHTMLString": true
+                    })
+                    this.closeAllModals()
+
+                });
+            this.getTargetPrice()
+        },
+        copyLink() {
+            try {
+                navigator.clipboard.writeText(document.baseURI);
+                toast("URL copied to clipboard", {
+                        "type": "success",
+                        "autoClose": 1000,
+                        "dangerouslyHTMLString": true
+                    })
+
+            } catch ($e) {
+                alert('Cannot copy');
+            }
+        }
     }
 };
 </script>

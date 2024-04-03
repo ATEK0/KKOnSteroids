@@ -90,8 +90,6 @@ export default {
                         "dangerouslyHTMLString": true
                     })
 
-
-
                 })
                 .catch(error => {
 
