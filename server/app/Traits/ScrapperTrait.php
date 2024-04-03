@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Traits;
 
-use Illuminate\Http\Request;
 
 use GuzzleHttp\Client;
 use Symfony\Component\DomCrawler\Crawler;
 
-class WebScrapperService extends Controller
+class ScrapperTrait
 {
     protected $client;
 

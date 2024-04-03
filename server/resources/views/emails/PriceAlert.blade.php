@@ -45,7 +45,7 @@
     <h2>Hey {{ $user->name }}</h2>
     <p>Do you remember this alert?</p>
     <p>Your product has reached the target price setted by you in {{ $target->created_at }}</p>
-    <p>Your target was {{ $target->target_price }}€ and the product is now at {{ $product->lowerprice }}€ !</p>
+    <p>Your target was <b>{{ $target->target_price }}€</b> and the product is now at <b>{{ $product->lowerprice }}€</b> !</p>
     <section class="row">
         <div class="col-sm d-flex align-items-center justify-content-center">
             <img src="{{ $product->productImage }}" alt="{{ $product->name }}" class="img-fluid p-2">

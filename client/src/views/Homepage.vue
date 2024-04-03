@@ -18,7 +18,7 @@ import MostViewed from '@/components/MostViewed.vue'
       <HomePageCarousel />
 
 
-      <h4 class="mt-3">Categories</h4>
+      <h4 class="mt-3" id="categories">Categories</h4>
       <div class="overflow-auto d-flex" style="-ms-overflow-style: none;scrollbar-width: none;">
         <div v-for="category in categories" class="gap-1 col-6 col-sm-4 col-md-3 col-lg-2">
           <a :href="'/category/' + category.name">

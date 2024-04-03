@@ -3,9 +3,9 @@
     <footer class="w-100 p-0 m-0 text-center p-3" style="background-color: white;">
         <div class="row">
             <div class="col-4">
-                Products <br>
-                Categories <br>
-                Account <br>
+                <a href="/products">Products</a> <br>
+                <a href="/#categories">Categories</a> <br>
+                <a href="/account">Account</a> <br>
             </div>
             <div class="col-4">
                 Terms & Conditions <br>

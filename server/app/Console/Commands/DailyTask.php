@@ -6,6 +6,7 @@ use App\Http\Controllers\EmailController;
 use App\Models\ProductLinks;
 use App\Models\Products;
 use App\Models\TargetPrice;
+use App\Traits\ScrapperTrait;
 use Illuminate\Console\Command;
 use App\Http\Controllers\WebScrapperService;
 use App\Models\PriceHistory;
@@ -50,7 +51,7 @@ class DailyTask extends Command
 
             foreach ($links as $link) { //check all the links linked to that product
 
-                $scraper = new WebScrapperService();
+                $scraper = new ScrapperTrait();
 
                 $productPrice = $scraper->scrapePrice( //scrap the price for the link
                     $link->link,
@@ -91,7 +92,7 @@ class DailyTask extends Command
 
         $target_price = TargetPrice::all();
 
-        
+
 
         foreach ($target_price as $target) { // checks all alerts
 
