@@ -1,17 +1,10 @@
 <script setup>
-import { userLogged } from '@/stores/loggedUserInfo.js';
-import NavBar from '@/components/Navbar.vue'
 
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 
 import SideNavBar from '@/components/NavAdmin.vue'
 
-let userInfo = userLogged()
-
-if (!userInfo.role) {
-    window.location.href = '/'
-}
 </script>
 <template>
 
@@ -33,50 +26,53 @@ if (!userInfo.role) {
                 </div>
             </section>
 
+            <div class="card p-3 pb-0">
 
-            <input v-model="searchQuery" type="text" placeholder="Search product" class="form-control mt-3 w-25">
-            <DataTable :value="filteredRequests" @row-click="cellClicked($event, $event.data)" stripedRows
-                resizableColumns columnResizeMode="fit" removableSort paginator :rows="15"
-                :rowsPerPageOptions="[15, 25, 50, 100]" tableStyle="min-width: 50rem;cursor:pointer;"
-                paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
-                row-key="id" currentPageReportTemplate="{first} to {last} of {totalRecords}" class="mt-3">
+                <input v-model="searchQuery" type="text" placeholder="Search product" class="form-control mt-3 w-25">
+                <DataTable :value="filteredRequests" @row-click="cellClicked($event, $event.data)" stripedRows
+                    resizableColumns columnResizeMode="fit" removableSort paginator :rows="15"
+                    :rowsPerPageOptions="[15, 25, 50, 100]" tableStyle="min-width: 50rem;cursor:pointer;"
+                    paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
+                    row-key="id" currentPageReportTemplate="{first} to {last} of {totalRecords}" class="mt-3">
 
-                <Column field="name" sortable header="Product" style="width: 20%">
-                    <template #loading>
-                        <div class="flex align-items-center"
-                            :style="{ height: '17px', 'flex-grow': '1', overflow: 'hidden' }">
-                        </div>
-                    </template>
-                </Column>
-                <Column field="requested_at" sortable header="Requested at" style="width: 20%">
-                    <template #loading>
-                        <div class="flex align-items-center"
-                            :style="{ height: '17px', 'flex-grow': '1', overflow: 'hidden' }">
-                        </div>
-                    </template>
-                </Column>
-                <Column field="status" sortable header="Status" style="width: 20%">
-                    <template #loading>
-                        <div class="flex align-items-center"
-                            :style="{ height: '17px', 'flex-grow': '1', overflow: 'hidden' }">
-                        </div>
-                    </template>
-                </Column>
-                <Column field="brand" sortable header="Brand" style="width: 20%">
-                    <template #loading>
-                        <div class="flex align-items-center"
-                            :style="{ height: '17px', 'flex-grow': '1', overflow: 'hidden' }">
-                        </div>
-                    </template>
-                </Column>
-                <Column field="requested_by" sortable header="Requested By" style="width: 20%">
-                    <template #loading>
-                        <div class="flex align-items-center"
-                            :style="{ height: '17px', 'flex-grow': '1', overflow: 'hidden' }">
-                        </div>
-                    </template>
-                </Column>
-            </DataTable>
+                    <Column field="name" sortable header="Product" >
+                        <template #loading>
+                            <div class="flex align-items-center"
+                                :style="{ height: '17px', 'flex-grow': '1', overflow: 'hidden' }">
+                            </div>
+                        </template>
+                    </Column>
+                    <Column field="requested_at" sortable header="Requested at">
+                        <template #loading>
+                            <div class="flex align-items-center"
+                                :style="{ height: '17px', 'flex-grow': '1', overflow: 'hidden' }">
+                            </div>
+                        </template>
+                    </Column>
+                    <Column field="status" sortable header="Status" >
+                        <template #loading>
+                            <div class="flex align-items-center"
+                                :style="{ height: '17px', 'flex-grow': '1', overflow: 'hidden' }">
+                            </div>
+                        </template>
+                    </Column>
+                    <Column field="brand" sortable header="Brand">
+                        <template #loading>
+                            <div class="flex align-items-center"
+                                :style="{ height: '17px', 'flex-grow': '1', overflow: 'hidden' }">
+                            </div>
+                        </template>
+                    </Column>
+                    <Column field="requested_by" sortable header="Requested By">
+                        <template #loading>
+                            <div class="flex align-items-center"
+                                :style="{ height: '17px', 'flex-grow': '1', overflow: 'hidden' }">
+                            </div>
+                        </template>
+                    </Column>
+                </DataTable>
+            </div>
+
         </template>
     </SideNavBar>
 

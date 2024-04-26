@@ -28,6 +28,7 @@ import SideNavBar from '@/components/NavAdmin.vue'
                 </div>
             </section>
 
+            <div class="card p-3 pb-0">
             <div class="d-flex justify-content-between mt-2">
                 <input v-model="searchQuery" type="text" placeholder="Search product" class="form-control w-25">
                 <button type="button" style="padding-top: 0px;padding-bottom:0px;" class="btn btn-primary"
@@ -77,6 +78,8 @@ import SideNavBar from '@/components/NavAdmin.vue'
                 </Column>
             </DataTable>
 
+        </div>
+
             <!-- Modal update category -->
             <div class="modal fade" id="categoryUpdateModal" tabindex="-1" aria-labelledby="categoryUpdateModal"
                 aria-hidden="true">
@@ -104,6 +107,8 @@ import SideNavBar from '@/components/NavAdmin.vue'
                     </div>
                 </div>
             </div>
+
+
 
             <!-- model confirm delete category -->
             <div class="modal fade" id="categoryDeleteModal" tabindex="-1" aria-labelledby="categoryDeleteModal"

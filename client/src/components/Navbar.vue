@@ -14,19 +14,21 @@ let searchHistoryStore = searchHistory()
             <div class="container gap-2">
                 <a class="navbar-brand" href="/">KKOnSteroids</a>
 
-                <form @submit.stop.prevent="submit" class="d-flex w-100 flex-sm-row align-items-center gap-3">
+                <form @submit.stop.prevent="submit('')" class="d-flex w-100 flex-sm-row align-items-center gap-3">
                     <div class="searchResults" id="searchResults" :hidden="!show_x"
                         style="background-color: white;border-radius: 0 0 5px 5px;position: absolute;top:30px;z-index: 5;padding-top: 20px;">
 
-                        <a :href="'product/' + product.slug" class="" v-for="product in searchBarProducts">
+                        <a :href="'/product/' + product.slug" class="" @click="submit(product.name)"
+                            v-for="product in searchBarProducts">
                             <div class="searchBarResult d-flex align-items-center justify-content-center my-2">
                                 <img :src="product.productImage" alt="" class="img-fluid col-2">
                                 <p class="col-10">{{ product.name }}</p>
                             </div>
                         </a>
                         <p class="ml-4">Recent Searches</p>
-                        <a :href="'products?search=' + search"
-                            v-for="(search, index) in searchHistoryStore.searchHistory" v-if="searchHistoryStore.searchHistory.length > 0">
+                        <a :href="'/products?search=' + search"
+                            v-for="(search, index) in searchHistoryStore.searchHistory"
+                            v-if="searchHistoryStore.searchHistory.length > 0">
                             <div class="searchBarResult d-flex align-items-center justify-content-center p-1 gap-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="17">
                                     <path
@@ -137,13 +139,27 @@ export default {
 
                 });
         },
-        submit() {
+        submit(name) {
 
             if (this.searchHistoryStore.searchHistory.length > 10) {
                 this.searchHistoryStore.searchHistory.pop()
             }
 
-            this.searchHistoryStore.searchHistory.unshift(this.search_query)
+            if (name) {
+
+                if (this.searchHistoryStore.searchHistory[0] != name) {
+
+                    this.searchHistoryStore.searchHistory.unshift(name)
+                }
+
+            } else {
+
+                if (this.searchHistoryStore.searchHistory[0] != this.search_query) {
+
+                    this.searchHistoryStore.searchHistory.unshift(this.search_query)
+                }
+
+            }
 
 
             window.location.href = "/products?search=" + this.search_query;

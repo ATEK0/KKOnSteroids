@@ -94,6 +94,7 @@ export default {
             element.remove();
         },
         validateFormData() {
+            this.product.links = []
             const result = Array.from(document.querySelectorAll("[id^='linkinp-']"), ({ value }) => value);
             for (var i = 0; i <= result.length - 1; i++) {
                 this.product.links.push(result[i])

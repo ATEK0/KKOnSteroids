@@ -40,7 +40,8 @@ export default {
         datasets: [
           {
             label: 'Price',
-            backgroundColor: '#f87979',
+            backgroundColor: '#FFBE0B',
+            borderColor: '#FFBE0B', // Change the line color here
             data: []
           }
         ]

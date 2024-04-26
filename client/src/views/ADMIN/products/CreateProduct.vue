@@ -23,7 +23,7 @@ import SideNavBar from '@/components/NavAdmin.vue'
                 </div>
             </section>
 
-            <form @submit.prevent="submitForm" class=" d-flex flex-column">
+            <form @submit.prevent="submitForm" class=" d-flex flex-column card p-3">
                 <label for="name" class="form-label">Name</label>
                 <input type="text" class="form-control" id="name" required v-model="name">
 

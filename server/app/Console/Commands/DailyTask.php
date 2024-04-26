@@ -119,6 +119,8 @@ class DailyTask extends Command
 
                 $mailSender->sendPriceTargetMail($product, $user, $target);
 
+                echo "email sent to " . $user->email;
+
                 $target->delete();
 
             }

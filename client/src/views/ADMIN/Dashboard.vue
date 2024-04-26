@@ -32,10 +32,10 @@ import NavAdmin from '@/components/NavAdmin.vue'
                 </div>
             </section>
 
-                <div class="row">
-                    <div class="col-lg-3 col-6">
+                <div class="row card p-2 flex-row text-start">
+                    <div class="col-lg-3 col-6 d-flex justify-content-center align-items-center mb-1">
                         <!-- small box -->
-                        <div class="small-box bg-lightblue">
+                        <div class="small-box bg-lightblue w-100">
                             <div class="inner">
                                 <h3>{{ productsCount }}</h3>
 
@@ -50,9 +50,9 @@ import NavAdmin from '@/components/NavAdmin.vue'
                         </div>
                     </div>
                     <!-- ./col -->
-                    <div class="col-lg-3 col-6">
+                    <div class="col-lg-3 col-6 d-flex justify-content-center align-items-center mb-1">
                         <!-- small box -->
-                        <div class="small-box bg-lightblue">
+                        <div class="small-box bg-lightblue w-100">
                             <div class="inner">
                                 <h3>{{ requestsCount }}</h3>
 
@@ -66,9 +66,9 @@ import NavAdmin from '@/components/NavAdmin.vue'
                         </div>
                     </div>
                     <!-- ./col -->
-                    <div class="col-lg-3 col-6">
+                    <div class="col-lg-3 col-6 d-flex justify-content-center align-items-center">
                         <!-- small box -->
-                        <div class="small-box bg-lightblue">
+                        <div class="small-box bg-lightblue w-100">
                             <div class="inner">
                                 <h3>{{ categoriesCount }}</h3>
 
@@ -82,9 +82,9 @@ import NavAdmin from '@/components/NavAdmin.vue'
                         </div>
                     </div>
                     <!-- ./col -->
-                    <div class="col-lg-3 col-6">
+                    <div class="col-lg-3 col-6 d-flex justify-content-center align-items-center">
                         <!-- small box -->
-                        <div class="small-box bg-lightblue">
+                        <div class="small-box bg-lightblue w-100">
                             <div class="inner">
                                 <h3>{{ userCount }}</h3>
 

@@ -33,14 +33,13 @@ import FloatLabel from 'primevue/floatlabel';
                     </div>
                 </section>
 
-                <div class="d-flex mt-2 gap-1 h-100">
+                <div class="row h-100 w-100">
 
                     <div v-for="banner, index in banners"
-                        class="d-flex flex-column justify-content-between col-3 border rounded text-center">
-                        <img :src="banner.imageLink" alt="" class="img-fluid">
+                        class="d-flex flex-column justify-content-between col-3 p-2 card text-center">
+                        <img :src="banner.imageLink" alt="" class="img-fluid rounded">
                         <div class="d-flex justify-content-center align-content-center my-3 gap-2">
-                            <p class="d-flex justify-content-center align-content-center p-0 m-0">Banner {{ index + 1 }}
-                            </p>
+                            <p class="d-flex justify-content-center align-content-center p-0 m-0">Banner {{ index + 1 }}</p>
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="" width="13"
                                 @click="deleteBanner(banner.id)" fill="var(--main-yellow)">
                                 <path
@@ -50,7 +49,7 @@ import FloatLabel from 'primevue/floatlabel';
                     </div>
 
                     <div data-bs-toggle="modal" data-bs-target="#modalAddBanner"
-                        class="col-3 border rounded text-center d-flex flex-column justify-content-center align-items-center"
+                        class="col-3 card text-center d-flex flex-column justify-content-center align-items-center"
                         style="color: var(--main-yellow);fill: var(--main-yellow);">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="70px">
                             <path

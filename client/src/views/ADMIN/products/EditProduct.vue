@@ -10,7 +10,7 @@ import SideNavBar from '@/components/NavAdmin.vue'
             
             <section class="content-header">
                 <div class="container-fluid">
-                    <div class="row mb-2">
+                    <div class="row">
                         <div class="col-sm-6">
                             <h1>Update {{ name }}</h1>
                         </div>
@@ -24,7 +24,7 @@ import SideNavBar from '@/components/NavAdmin.vue'
                 </div>
             </section>
 
-            <form @submit.prevent="submitForm" class=" mt-3 d-flex flex-column gap-4">
+            <form @submit.prevent="submitForm" class=" mt-3 d-flex flex-column gap-4 card p-4 text-left">
 
                 <FloatLabel>
                     <InputText id="name" class="w-100" v-model="name" required />
@@ -91,7 +91,7 @@ import SideNavBar from '@/components/NavAdmin.vue'
                 </div>
 
                 <div class="d-flex gap-1 flex-row-reverse">
-                    <button type="submit" class="btn btn-primary">Create</button>
+                    <button type="submit" class="btn btn-primary">Update</button>
                     <button type="button" class="btn btn-secondary">Cancel</button>
                 </div>
 

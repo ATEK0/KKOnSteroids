@@ -285,3 +285,7 @@ input[type="checkbox"] {
 .searchFilters {
     min-height: 100vh;
 }
+
+.small-box {
+    margin-bottom: 0px;
+  }
